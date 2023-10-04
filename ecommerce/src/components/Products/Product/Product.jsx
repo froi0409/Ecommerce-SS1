@@ -19,7 +19,7 @@ function Product({producto}) {
                 </Typography>
 
             </div>
-            <Typography variant='h2' color='textSecondary'>
+            <Typography variant='body2' color='textSecondary'>
                 {producto.descripcion}
             </Typography>
         </CardContent>
