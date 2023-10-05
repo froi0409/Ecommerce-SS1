@@ -13,7 +13,7 @@ const NewAccount = () => {
             <Button
                         sx={{
                             borderRadius: '0.625rem', background: '#9EC5FE', 
-                            color: '#7B7B7B',
+                            color: '#2F2F2F',
                             m:1.5,
                             width: '49ch',
                         }}

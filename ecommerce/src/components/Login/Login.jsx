@@ -86,7 +86,7 @@ const Login = () => {
                     </Button>
                 </form>
                 <Typography variant='body2'>
-                    <p className={classes.forgot}><a className={classes.link} href="https://">olvidastes la contraseña</a></p>
+                    <p className={classes.forgot}><a className={classes.link} href="https://">Olvidaste la contraseña</a></p>
                 </Typography>
             </div>
             <NewAccount />

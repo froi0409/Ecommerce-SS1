@@ -5,15 +5,17 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import LoginIcon from '@mui/icons-material/Login';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import { ShoppingCart } from '@mui/icons-material';
+import { Badge } from '@mui/material';
 
-export default function ButtonsNav() {
+export default function ButtonsNav({cantidadProductos}) {
   const [value, setValue] = React.useState('recents');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  return (
+  return (    
     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
       <BottomNavigationAction
         label="Favoritos"
@@ -36,6 +38,19 @@ export default function ButtonsNav() {
         component={Link}
         to="/login" // Ruta que quieres enlazar
       />
+      <BottomNavigationAction 
+        label="Cart"
+        value="cart"
+        icon={
+          <Badge 
+            badgeContent={cantidadProductos} 
+            color='secondary'
+          >
+            <ShoppingCart />
+          </Badge>}
+        component={Link}
+        to="/cart" // Ruta que quieres enlazar
+      />      
     </BottomNavigation>
   );
 }
