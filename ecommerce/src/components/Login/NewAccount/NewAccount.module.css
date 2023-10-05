@@ -1,0 +1,24 @@
+.box {
+    box-sizing: border-box;
+    margin: 0 30.5rem;
+    width: 25.25rem;
+    height: 4.973rem;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    /* background: rgba(207, 226, 255, 0.80); */
+}
+
+.noAccount_intro {
+    display: flex;
+    color : #797979;
+    padding: 5px 0 0 10rem;
+    text-align: center;
+}
+
+.elemento {
+    margin-bottom: 1px; /* Reduce el margen inferior entre elementos */
+}
+
+
+
