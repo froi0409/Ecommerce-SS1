@@ -3,7 +3,7 @@ import { AppBar, Toolbar, IconButton, Badge, MenuItem, Menu, Typography } from '
 import { ShoppingCart } from '@mui/icons-material';
 
 import logo from '../../assets/LogoEcommerce.png' 
-import useStyles from './styles';
+import { useStyles } from './styles';
 
 const Navbar = ({  }) => {
   const classes = useStyles();

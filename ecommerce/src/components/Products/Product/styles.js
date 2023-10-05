@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 
-export default makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: '100%',
   },
@@ -14,6 +14,7 @@ export default makeStyles(() => ({
   },
   cardContent: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between',      
   },
 }));
+

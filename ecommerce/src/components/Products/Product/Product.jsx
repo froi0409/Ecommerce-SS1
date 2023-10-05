@@ -2,7 +2,7 @@ import React from 'react'
 import { Card,CardMedia,CardContent,CardActions,Typography,IconButton } from '@mui/material'
 import { AddShoppingCart } from '@mui/icons-material'
 
-import useStyles from './styles'
+import { useStyles } from './styles'
 
 function Product({producto}) {
   const classes = useStyles();

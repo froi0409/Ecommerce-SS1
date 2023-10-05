@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from '@mui/material'
 import Product from "./Product/Product";
-import useStyles from './styles';
+import { useStyles } from "./styles";
 
 const productos = [
     {id: 1, nombre: 'Computadora', descripcion: 'Laptop nueva del mercado', precio: '100', imagen: 'https://media.wired.com/photos/64daad6b4a854832b16fd3bc/master/w_1920,c_limit/How-to-Choose-a-Laptop-August-2023-Gear.jpg'},
@@ -10,10 +10,11 @@ const productos = [
 
 
 
-const Products = () => {
+const Products = () => {    
     const classes = useStyles();
     return (
         <main className={classes.content}>
+            <div className={classes.toolbar} />
             <Grid container justify="center" spacing={4}>
                 {productos.map((producto) => (
                     <Grid item key={producto.id} xs={12} sm={6} lg={3}>
