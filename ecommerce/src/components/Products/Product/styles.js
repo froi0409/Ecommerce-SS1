@@ -12,9 +12,12 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  cardContent: {
+  cardContent: {    
     display: 'flex',
-    justifyContent: 'space-between',      
+    justifyContent: 'space-between',
+  },
+  buttonContent: {        
+    width: '100%'
   },
 }));
 
