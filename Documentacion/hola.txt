@@ -1,1 +1,3 @@
-Nada más es para agregar la carpeta al repo xd
+Comandos: 
+// Generar DB (mariadb)
+SOURCE /home/fernando/Documents/CUNOC/Seminario-De-Sistemas-1/Ecommerce-SS1/Documentacion/DB/db_script.sql
