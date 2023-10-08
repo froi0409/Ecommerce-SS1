@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
-import { Products, Navbar, Login, Detail, Cart} from './components';
+import { Products, Navbar, Login, Detail, Chat, Cart} from './components';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 const theme = createTheme();
@@ -38,6 +38,7 @@ const App = () => {
             <Route path="/products" element={<Products addToCart={addToCart} />} />
             <Route path="/login" element={<Login />} />
             <Route path="/detail" element={<Detail />} />
+            <Route path="/chat" element={<Chat />} />
             <Route path="/cart" element={<Cart cart={cart} />} />
         </Routes>
         </ThemeProvider>
