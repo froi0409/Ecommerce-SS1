@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
-import { Products, Navbar, Login} from './components';
+import { Products, Navbar, Login, Chat} from './components';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme();
 
@@ -14,6 +14,7 @@ const App = () => {
             <Route path="/" element={<Products />} />
             <Route path="/products" element={<Products />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/chat" element={<Chat />} />
         </Routes>
         </ThemeProvider>
     </div>
