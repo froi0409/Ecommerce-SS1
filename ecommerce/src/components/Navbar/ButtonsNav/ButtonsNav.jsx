@@ -7,6 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
+import ChatIcon from '@mui/icons-material/Chat';
 
 export default function ButtonsNav({cantidadProductos}) {
   const [value, setValue] = React.useState('recents');
@@ -37,6 +38,13 @@ export default function ButtonsNav({cantidadProductos}) {
         icon={<LoginIcon />}
         component={Link}
         to="/login" // Ruta que quieres enlazar
+      />
+      <BottomNavigationAction
+        label="Chat"
+        value="chat"
+        icon={<ChatIcon />}
+        component={Link}
+        to="/chat" // Ruta que quieres enlazar
       />
       <BottomNavigationAction 
         label="Cart"
