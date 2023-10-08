@@ -8,7 +8,7 @@ import ButtonsNav from './ButtonsNav/ButtonsNav';
 
 const cantidadProductos = 4;
 
-const Navbar = ({  }) => {
+const Navbar = ({prodQuantity}) => {
   const classes = useStyles();
 
   return (
@@ -20,7 +20,7 @@ const Navbar = ({  }) => {
           </Typography>
           <div className={classes.grow} />      
           <div className={classes.buttonnav}>
-            <ButtonsNav cantidadProductos={cantidadProductos}/>
+            <ButtonsNav cantidadProductos={prodQuantity}/>
           </div>
         </Toolbar>
       </AppBar>

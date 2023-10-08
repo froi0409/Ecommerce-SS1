@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useStyles } from './styles'
 
-function Product({producto}) {
+function Product({producto,addToCart}) {
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -19,6 +19,7 @@ function Product({producto}) {
         }
       });
   };
+  const handleAddToCart = () => addToCart(producto.id);
   return (
     <Card className={classes.root}>
         <CardMedia className={classes.media} image={producto.imagen} title={producto.nombre}></CardMedia>
@@ -38,8 +39,8 @@ function Product({producto}) {
         </CardContent>
         </ButtonBase>
         <CardActions disableSpacing className={classes.cardActions}>
-            <IconButton aria-label='Add to Cart'>
-                <AddShoppingCart/>
+            <IconButton aria-label='Add to Cart' onClick={handleAddToCart}>
+                <AddShoppingCart />
             </IconButton>
         </CardActions>
     </Card>    

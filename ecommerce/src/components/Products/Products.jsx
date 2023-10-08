@@ -8,10 +8,7 @@ const productosTraidos = [
     {id: 2, nombre: 'Laptop vieja', descripcion: 'Laptop vieja del mercado', precio: '50', imagen: 'https://www.asus.com/media/Odin/Websites/global/ProductLine/20201014051549/P_setting_xxx_0_90_end_185.png?webp'},
 ]
 
-
-
-
-const Products = () => {    
+const Products = ({addToCart}) => {    
     const classes = useStyles();
     const [filtro, setFiltro] = useState('');
     const [productos, setProductos] = useState(productosTraidos);
@@ -40,7 +37,7 @@ const Products = () => {
             <Grid container justify="center" spacing={4}>
                 {productosFiltrados.map((producto) => (
                     <Grid item key={producto.id} xs={12} sm={6} lg={3}>
-                        <Product producto={producto}></Product>
+                        <Product producto={producto} addToCart={addToCart}></Product>
                     </Grid>
                 ))}
             </Grid>
