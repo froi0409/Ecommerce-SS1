@@ -15,6 +15,18 @@ const App = () => {
       [productId]: (prevCart[productId] || 0) + 1,
     }));
   };
+  
+  const removeFromCart = (productId) => {
+    setCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      if (updatedCart[productId] > 1) {
+        updatedCart[productId] -= 1;
+      } else {
+        delete updatedCart[productId];
+      }
+      return updatedCart;
+    });
+  };
 
   const getTotalQuantityInCart = () => {
     const quantities = Object.values(cart);
@@ -39,7 +51,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/detail" element={<Detail />} />
             <Route path="/chat" element={<Chat />} />
-            <Route path="/cart" element={<Cart cart={cart} />} />
+            <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart}/>} />
         </Routes>
         </ThemeProvider>
     </div>
