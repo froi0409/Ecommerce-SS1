@@ -1,17 +1,23 @@
 import React from 'react'
-import { Box,Card,CardContent,CardMedia,Typography } from '@mui/material'
-import QuantityButton from './QuantityButton';
+import { Box,Card,CardContent,CardMedia,Typography ,IconButton,Button} from '@mui/material'
 import imagenPrueba1 from '../../assets/fotoPrueba1.jpg'
 import { Add,Remove } from "@mui/icons-material";
 import { useStyles } from "./styles";
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 const Cart = ({cart,removeFromCart,addToCart}) => {
-    const classes = useStyles();
-    let prueba = 0
-    const handleAddToCart = (id) => addToCart(id);
-    const handleRemoveToCart = (id) => removeFromCart(id);
+    const classes = useStyles();    
+    const handleAddToCart = (id) => addToCart(id,0);
+    const isCartEmpty = Object.keys(cart).length === 0;    
   return (
-    <div className={classes.content}>        
+    <div className={classes.content}>     
+      <Typography variant='h2'>
+        Carrito de Compras
+      </Typography>
+      {isCartEmpty ? (
+        <p>El carrito está vacío.</p>
+      ) : (
+        <>
         {Object.keys(cart).map((productId) => (
           <Card key={productId} sx={{ display: 'flex'}} >
               <CardMedia
@@ -30,19 +36,34 @@ const Cart = ({cart,removeFromCart,addToCart}) => {
                           Dscripcion del producto
                       </Typography>
                   </CardContent>
-                  <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>    
-                    Cantidad                  
-                      <button onClick={() => removeFromCart(productId)} disabled={cart[productId]===0}>
-                        <Remove></Remove>
-                      </button>
-                      <p>{cart[productId]}</p>
-                      <button onClick={() => addToCart(productId)} disabled={cart[productId] === 100}>
-                        <Add></Add>
-                      </button>                    
+                  <Box sx={{ display: 'flex', alignItems: 'center', pl: 2, pb: 1 }}>
+                    <Typography variant="h6" component="div">
+                      Precio por Unidad: {cart[productId].totalPrice}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', pl: 2, pb: 1 }}>   
+                    <Typography variant="h6">
+                      Cantidad
+                    </Typography>
+                    <IconButton onClick={() => removeFromCart(productId)}>
+                      <Remove></Remove>
+                    </IconButton>                    
+                    <p>{cart[productId].quantity}</p>
+                    <IconButton onClick={() => handleAddToCart(productId)}>
+                      <Add></Add>
+                    </IconButton>    
+                    <Typography variant="h6">
+                      Subtotal: {cart[productId].totalPrice * cart[productId].quantity}
+                    </Typography>                           
                   </Box>
               </Box>
           </Card>
         ))}
+        <Box sx={{pt:1}}>
+          <Button variant="contained" startIcon={<ShoppingCartCheckoutIcon/>}>Checkout</Button>
+        </Box> 
+       </>
+      )}
     </div>
 
   )

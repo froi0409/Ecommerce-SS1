@@ -19,7 +19,7 @@ function Product({producto,addToCart}) {
         }
       });
   };
-  const handleAddToCart = () => addToCart(producto.id);
+  const handleAddToCart = () => addToCart(producto.id,producto.precio);
   return (
     <Card className={classes.root}>
         <CardMedia className={classes.media} image={producto.imagen} title={producto.nombre}></CardMedia>

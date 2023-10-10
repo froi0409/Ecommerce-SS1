@@ -9,36 +9,45 @@ const theme = createTheme();
 const App = () => {
   const [cart, setCart] = useState({})
 
-  const addToCart = (productId) => {
-    setCart((prevCart) => ({
-      ...prevCart,
-      [productId]: (prevCart[productId] || 0) + 1,
-    }));
+  const addToCart = (productId, price) => {
+    setCart((prevCart) => {
+      console.log("Sumando uno")
+      const updatedCart = { ...prevCart };
+      
+      if (updatedCart[productId]) {        
+        updatedCart[productId].quantity += 1;
+        
+      } else {        
+        updatedCart[productId] = {
+          quantity: 1,
+          totalPrice: price,
+        };
+      }
+      return updatedCart;
+    });
   };
   
   const removeFromCart = (productId) => {
     setCart((prevCart) => {
       const updatedCart = { ...prevCart };
-      if (updatedCart[productId] > 1) {
-        updatedCart[productId] -= 1;
-      } else {
-        delete updatedCart[productId];
+      if (updatedCart[productId]) {        
+        if (updatedCart[productId].quantity > 1) {
+          updatedCart[productId].quantity -= 1;          
+        } else {          
+          delete updatedCart[productId];
+        }
       }
       return updatedCart;
     });
   };
 
   const getTotalQuantityInCart = () => {
-    const quantities = Object.values(cart);
-    return quantities.reduce((total, quantity) => total + quantity, 0);
-  };
-
-  const getProductsInCart = () => {
-    const productsArray = Object.keys(cart).map((productId) => ({
-      productId,
-      quantity: cart[productId],
-    }));
-    return productsArray;
+    const productValues = Object.values(cart);
+    const totalQuantity = productValues.reduce(
+      (total, product) => total + product.quantity,
+      0
+    );
+    return totalQuantity;
   };
 
   return (
