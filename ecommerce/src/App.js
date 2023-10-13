@@ -50,15 +50,19 @@ const App = () => {
     return totalQuantity;
   };
 
+  const getQuantityInCart = (productId) => {
+    return cart[productId] ? cart[productId].quantity : 0;
+  };
+
   return (
     <div>
         <ThemeProvider theme={theme}>
           <Navbar prodQuantity={getTotalQuantityInCart()}/>
             <Routes>
-            <Route path="/" element={<Products addToCart={addToCart} />} />
-            <Route path="/products" element={<Products addToCart={addToCart} />} />
+            <Route path="/" element={<Products addToCart={addToCart} getQuantityInCart={getQuantityInCart}/>} />
+            <Route path="/products" element={<Products addToCart={addToCart} getQuantityInCart={getQuantityInCart}/>} />
             <Route path="/login" element={<Login />} />
-            <Route path="/detail" element={<Detail />} />
+            <Route path="/detail" element={<Detail removeFromCart={removeFromCart} addToCart={addToCart} getQuantityInCart={getQuantityInCart}/>} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart}/>} />
         </Routes>

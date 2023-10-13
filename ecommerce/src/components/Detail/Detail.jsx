@@ -5,7 +5,7 @@ import Gallery from './DetailComponents/Gallery';
 import DescriptionDetail from './DetailComponents/DescriptionDetail';
 import { useLocation } from "react-router-dom";
 
-const Detail = () => {
+const Detail = ({removeFromCart,addToCart,getQuantityInCart}) => {
   const location = useLocation();
   const idProduct = location.state.idProduct
   const [quant, setQuant] = useState(0);
@@ -27,14 +27,14 @@ const Detail = () => {
         <section className="core">
             <Gallery></Gallery>
             <DescriptionDetail 
-                onQuant={quant}
-                onAdd={addQuant}
-                onRemove={removeQuant}
-                onSetOrderedQuant={setOrderedQuant}
+                removeFromCart = {removeFromCart}
+                addToCart = {addToCart}
+                getQuantityInCart = {getQuantityInCart}
+                productId = {idProduct}
             >
             </DescriptionDetail>
         </section>
-        {idProduct}
+        {idProduct}        
     </Container>
   )
 }

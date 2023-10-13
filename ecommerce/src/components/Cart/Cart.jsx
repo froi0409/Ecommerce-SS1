@@ -11,6 +11,7 @@ const Cart = ({cart,removeFromCart,addToCart}) => {
     const navigate = useNavigate();
     const handleAddToCart = (id) => addToCart(id,0);
     const isCartEmpty = Object.keys(cart).length === 0;  
+    const stock = 4
 
     const getTotalPrice = () => {
       const productValues = Object.values(cart);
@@ -66,7 +67,7 @@ const Cart = ({cart,removeFromCart,addToCart}) => {
                       <Remove></Remove>
                     </IconButton>                    
                     <p>{cart[productId].quantity}</p>
-                    <IconButton onClick={() => handleAddToCart(productId)}>
+                    <IconButton onClick={() => handleAddToCart(productId)} disabled={cart[productId].quantity >= stock}>
                       <Add></Add>
                     </IconButton>    
                     <Typography variant="h6">

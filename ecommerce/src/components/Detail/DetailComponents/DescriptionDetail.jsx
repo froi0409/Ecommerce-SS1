@@ -1,8 +1,11 @@
 import React from 'react'
-import { ShoppingCart } from '@mui/icons-material';
+import { ShoppingCart,Add,Remove } from '@mui/icons-material';
+import {IconButton} from '@mui/material'
 import QuantityButton from './QuantityButton';
 
-const DescriptionDetail = ({ onQuant, onAdd, onRemove, onSetOrderedQuant }) => {
+const DescriptionDetail = ({ removeFromCart,addToCart,getQuantityInCart ,productId}) => {
+  const handleAddToCart = (id) => addToCart(id,0);
+  const stock = 15
   return (
     <section className="description">
       <p className="pre">FRIKISTUFF</p>
@@ -23,11 +26,17 @@ const DescriptionDetail = ({ onQuant, onAdd, onRemove, onSetOrderedQuant }) => {
         <s>Q750.00</s>
       </div>
       <div className="buttons">
-        <QuantityButton onQuant={onQuant} onRemove={onRemove} onAdd={onAdd} />
+      <IconButton onClick={() => removeFromCart(productId)}>
+                      <Remove></Remove>
+                    </IconButton>                    
+                    <p>{getQuantityInCart(productId)}</p>
+                    <IconButton onClick={() => handleAddToCart(productId)} disabled={getQuantityInCart(productId) >= stock}>
+                      <Add></Add>
+                    </IconButton>
         <button
           className="add-to-cart"
           onClick={() => {
-            onSetOrderedQuant(onQuant);
+            //onSetOrderedQuant(onQuant);
           }}
         >
           <ShoppingCart />
