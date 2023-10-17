@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:11.1.2
+    container_name: ecommerce-container
+    environment:
+      - MARIADB_ROOT_PASSWORD=admin123
+      - MARIADB_DATABASE=Ecommerce_SS1
+    ports:
+      - 3307:3306
