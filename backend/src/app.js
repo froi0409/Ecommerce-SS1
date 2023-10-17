@@ -1,9 +1,7 @@
 import express from 'express'
 import * as db from './configs/database.config.js'
 
-console.log('hola');
 db.connectDB();
-console.log('mundo');
 
 const app = express();
 

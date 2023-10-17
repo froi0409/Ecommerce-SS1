@@ -1,14 +1,14 @@
-import dotenv from 'dotenv'
+import { config } from 'dotenv'
 import mariadb from "mariadb";
 
-dotenv.config();
+config();
 
 const pool = mariadb.createPool({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  port: process.env.DATABASE_LOCAL_PORT
+  port: process.env.DATABASE_CONTAINER_PORT
 });
 
 async function connectDB() {
