@@ -9,8 +9,11 @@ services:
     environment:
       - MARIADB_ROOT_PASSWORD=$DATABASE_PASSWORD
       - MARIADB_DATABASE=$DATABASE_NAME
+      - MYSQL_INITDB_SKIP_TZINFO=yes
     ports:
       - $DATABASE_LOCAL_PORT:$DATABASE_CONTAINER_PORT
+    volumes:
+      - db-data:/var/lib/mysql
 
   nodeapp:
     build: .
@@ -20,3 +23,6 @@ services:
       - db
     ports:
       - $NODE_LOCAL_PORT:$NODE_CONTAINER_PORT
+
+volumes:
+  db-data:
