@@ -9,7 +9,7 @@ function Product({producto,addToCart,getQuantityInCart}) {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const idProduct = producto.id; // Define la variable que deseas pasar
+  const idProduct = producto.product_id; // Define la variable que deseas pasar
 
   const handleButtonClick = () => {
     // Redirige al usuario a la nueva dirección y pasa la variable como parte de la URL    
@@ -19,18 +19,18 @@ function Product({producto,addToCart,getQuantityInCart}) {
         }
       });
   };
-  const handleAddToCart = () => addToCart(producto.id,producto.precio);
+  const handleAddToCart = () => addToCart(producto.product_id,producto.unit_price);
   return (
     <Card className={classes.root}>
-        <CardMedia className={classes.media} image={producto.imagen} title={producto.nombre}></CardMedia>
+        <CardMedia component="img" height="280" image={`data:image/png;base64,${producto.images[0]}`} title={producto.product_name}/>        
         <ButtonBase className={classes.buttonContent} onClick={handleButtonClick} >
         <CardContent className={classes.buttonContent}>
             <div className={classes.cardContent}>
                 <Typography variant='h5' gutterBottom>
-                    {producto.nombre}
+                    {producto.product_name}
                 </Typography>                
                 <Typography variant='h5'>
-                    Q.{producto.precio}
+                    Q.{producto.unit_price}
                 </Typography>                
             </div>
             <Typography variant='body2' color='textSecondary'>
@@ -42,7 +42,7 @@ function Product({producto,addToCart,getQuantityInCart}) {
             <Typography variant='body2' color='textSecondary'>
                 {producto.stock}
             </Typography>
-            <IconButton aria-label='Add to Cart' onClick={handleAddToCart}  disabled={producto.stock <= getQuantityInCart(producto.id)}>
+            <IconButton aria-label='Add to Cart' onClick={handleAddToCart}  disabled={producto.stock <= getQuantityInCart(producto.product_id)}>
                 <AddShoppingCart />
             </IconButton>
         </CardActions>
