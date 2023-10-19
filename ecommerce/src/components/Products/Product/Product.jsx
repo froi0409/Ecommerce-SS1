@@ -21,28 +21,25 @@ function Product({producto,addToCart,getQuantityInCart}) {
   };
   const handleAddToCart = () => addToCart(producto.id,producto.precio);
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} sx={{background: '#CFE2FF',}} >
         <CardMedia className={classes.media} image={producto.imagen} title={producto.nombre}></CardMedia>
         <ButtonBase className={classes.buttonContent} onClick={handleButtonClick} >
         <CardContent className={classes.buttonContent}>
             <div className={classes.cardContent}>
-                <Typography variant='h5' gutterBottom>
+                <Typography variant='h6' gutterBottom>
                     {producto.nombre}
                 </Typography>                
-                <Typography variant='h5'>
+                <Typography variant='h6'>
                     Q.{producto.precio}
                 </Typography>                
             </div>
-            <Typography variant='body2' color='textSecondary'>
+            <Typography variant='body3' color='textSecondary'>
                 {producto.descripcion}
             </Typography>            
         </CardContent>
         </ButtonBase>
         <CardActions disableSpacing className={classes.cardActions}>
-            <Typography variant='body2' color='textSecondary'>
-                {producto.stock}
-            </Typography>
-            <IconButton aria-label='Add to Cart' onClick={handleAddToCart}  disabled={producto.stock <= getQuantityInCart(producto.id)}>
+            <IconButton className={classes.cardIconButton} aria-label='Add to Cart' onClick={handleAddToCart}  disabled={producto.stock <= getQuantityInCart(producto.id)}>
                 <AddShoppingCart />
             </IconButton>
         </CardActions>

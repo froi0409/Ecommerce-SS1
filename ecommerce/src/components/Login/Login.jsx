@@ -31,7 +31,7 @@ const Login = () => {
                     <Box
                         component="form"
                         sx={{
-                            '& > :not(style)': { m: 1, width: '51ch' },
+                            '& > :not(style)': { m: 1, width: '43ch' },
                         }}
                         noValidate
                         autoComplete="on"
@@ -53,7 +53,7 @@ const Login = () => {
                     <Box
                         component="form"
                         sx={{
-                            '& > :not(style)': { m: 1, width: '51ch' },
+                            '& > :not(style)': { m: 1, width: '43ch' },
                         }}
                         noValidate
                         autoComplete="on"
