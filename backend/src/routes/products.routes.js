@@ -3,6 +3,6 @@ import * as ProductsController from '../controllers/productsController.js';
 
 const router = Router();
 
-router.get('/getAllProducts', ProductsController.getAllProducts)
+router.get('/getAllProducts', ProductsController.getAllProducts);
 
-export { router }
+export { router as ProductsRoutes }

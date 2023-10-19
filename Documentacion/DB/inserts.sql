@@ -30,6 +30,14 @@ INSERT INTO PRODUCT (product_name, unit_price, stock, supplier_id) VALUES
 ('Civil War #7',150.75,5,5),
 ('EA FIFA 2023 WorldCup edition PS5',450.00,15,7);
 
+INSERT INTO PRODUCT_CATEGORY (product_id, category_name) VALUES
+(1,'Figuras de Acción'),
+(1,'Figuras de Colección'),
+(2,'Figuras de Colección'),
+(3,'Comics'),
+(4,'Comics'),
+(5,'Videojuegos');
+
 INSERT INTO PRODUCT_IMAGE (image_path, product_id) VALUES
 ('1-0.jpg',1),
 ('1-1.jpg',1),
