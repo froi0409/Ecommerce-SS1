@@ -1,3 +1,9 @@
 Comandos: 
 // Generar DB (mariadb)
 SOURCE /home/fernando/Documents/CUNOC/Ecommerce-SS1/Documentacion/DB/db_script.sql
+
+// Consulta de productos con proveedor
+SELECT p.*,s.supplier_name FROM PRODUCT AS p INNER JOIN SUPPLIER AS s ON p.supplier_id=s.supplier_id;
+
+// Consulta de productos con su imagen
+SELECT pi.*,p.product_name FROM PRODUCT_IMAGE AS pi INNER JOIN PRODUCT AS p ON pi.product_id=p.product_id;
