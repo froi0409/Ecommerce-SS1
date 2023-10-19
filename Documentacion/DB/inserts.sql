@@ -23,12 +23,12 @@ INSERT INTO CATEGORY (category_name) VALUES
 ('Comics'),
 ('Varios');
 
-INSERT INTO PRODUCT (product_name, unit_price, stock, supplier_id) VALUES
-('Venom Sixth Scale',1140.00,10,1),
-('Aang Avatar 541',250.00,15,2),
-('Flashpoint #1',475.50,5,4),
-('Civil War #7',150.75,5,5),
-('EA FIFA 2023 WorldCup edition PS5',450.00,15,7);
+INSERT INTO PRODUCT (product_name, unit_price, stock, supplier_id, description) VALUES
+('Venom Sixth Scale',1140.00,10,1,'Figura de acción tamaño mediano, incluye diferentes expresiones faciales'),
+('Aang Avatar 541',250.00,15,2,'Funko pop edición especial'),
+('Flashpoint #1',475.50,5,4,'Barry Allen decide regresar en el tiempo para salvar a su madre, lo cual provoca que el presente se altere'),
+('Civil War #7',150.75,5,5,'Ironman y Capitan América se ven forzados a reclutar superheroes divididos en bandos debido a un conflicto con la identidad secreta de los superheroes'),
+('EA FIFA 2023 WorldCup edition PS5',450.00,15,7,'Incluye modo UEFA Champions League y FIFA World Cup Qatar 2023');
 
 INSERT INTO PRODUCT_CATEGORY (product_id, category_name) VALUES
 (1,'Figuras de Acción'),
