@@ -21,6 +21,8 @@ const Categories = () => {
         };
         fetchData();
       }, []);
+      console.log("asdfasfd");
+      console.log(categories);
     return (
         <div className={classes.categories_box}>
             <Typography variant="h4" sx ={{
