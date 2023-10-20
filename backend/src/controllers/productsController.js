@@ -55,7 +55,7 @@ const getCategories = async (req, res) => {
     const conn = await db.getConnection();
     let categoryList = {};
     try {
-        categoryList = await conn.query(' SELECT category_name FROM category');
+        categoryList = await conn.query('SELECT category_name FROM CATEGORY');
         res.json(categoryList);
     } catch (error) {
         console.error(error);

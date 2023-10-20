@@ -11,9 +11,8 @@ const DescriptionDetail = ({ removeFromCart,addToCart,getQuantityInCart ,product
     <section className="description">
       <p className="pre">FRIKISTUFF</p>
       <h1>{producto.product_name}</h1>
-      <p className="desc">
-        Aqui iria una descripcion, si hubiera una \:v/
-      {producto.product_description}
+      <p className="desc">        
+      {producto.description}
       </p>
       <div className="price">
           <div className="main-tag">

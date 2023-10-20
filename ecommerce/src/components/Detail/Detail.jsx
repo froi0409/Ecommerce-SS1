@@ -14,7 +14,7 @@ const Detail = ({removeFromCart,addToCart,getQuantityInCart}) => {
   useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get('http://localhost:3000/api/getProduct/'+idProduct);
+          const response = await axios.get('http://localhost:3001/api/getProduct/'+idProduct);
           setProducto(response.data);
         } catch (error) {
           console.error('Error al obtener datos de la API', error);
