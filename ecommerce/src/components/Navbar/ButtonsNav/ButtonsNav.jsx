@@ -18,7 +18,7 @@ export default function ButtonsNav({cantidadProductos}) {
 
   return (    
     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-      <BottomNavigationAction
+      <BottomNavigationAction 
         label="Favoritos"
         value="favorites"
         icon={<FavoriteIcon />}
