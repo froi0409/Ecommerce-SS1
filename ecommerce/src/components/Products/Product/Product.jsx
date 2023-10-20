@@ -39,6 +39,9 @@ function Product({producto,addToCart,getQuantityInCart}) {
             <Typography variant='h6'>
                 Q.{producto.unit_price}
             </Typography>
+            <Typography variant='body2'>
+                {producto.description}
+            </Typography>
         </CardContent>
         </ButtonBase>
         <CardActions disableSpacing className={classes.cardActions}>
