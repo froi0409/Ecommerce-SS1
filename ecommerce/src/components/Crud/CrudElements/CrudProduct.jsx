@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
-import { TextField, Container, IconButton, Box, Select, MenuItem, InputLabel, FormControl} from '@mui/material';
+import { TextField, Container, IconButton, Box, Select, MenuItem, InputLabel, FormControl, Alert, AlertTitle} from '@mui/material';
 import { Delete, Save, Search } from '@mui/icons-material';
 
-function CrudProduct() {  
-
+const CrudProduct = (props) => {  
+  const alert = props.alert;
   const [userData, setUserData] = useState({
-    username: '',
-    password: '',
-    first_name: '',
-    last_name: '',
-    birth_date: '',
-    user_type: '',
-    payment_portal_account: '',
+    product_id: '',
+    product_name: '',
+    unit_price: '',
+    stock: '',
+    supplier_id: '',
+    description: '',
   });
 
   const handleChange = (e) => {
@@ -21,23 +20,50 @@ function CrudProduct() {
 
   const handleSave = () => {
     console.log('Guardar')
-    //console.log(userData)
-
-    //handleCreateUser(userData);
+    props.handleSave('http://localhost:3001/api/insertProduct',
+    userData)
   };
 
-  const handleSearch = () => {
-    console.log('Buscar')    
+  const handleSearch = async () => {
+    console.log('Buscar')
+    const response = await props.handleSearch(
+      'http://localhost:3001/api/searchProduct?product_name',
+      userData.product_name)
+    if (response) {
+      setUserData(response)
+    }
   };
 
   const handleDelete = () => {
     console.log('Eliminar')
+    const response = props.handleDelete(
+      'http://localhost:3001/api/deleteProduct?product_id',
+      userData.username)
+    if (response) {
+      // Limpia los datos de usuario
+      setUserData({
+        product_id: '',
+        product_name: '',
+        unit_price: '',
+        stock: '',
+        supplier_id: '',
+        description: '',
+      });
+    }
   };
 
   return (
     <div>
       <Container sx={{padding:12}} >
         <h1>Insersion de Producto</h1>
+        {alert.open && <Alert
+          open={alert.open}
+          severity={alert.severity}
+          onClose={() => props.changeAlert({ ...alert, open: false })}
+        >
+          <AlertTitle>{alert.title}</AlertTitle>
+          {alert.message}
+        </Alert>}
         <Box 
           sx={{
             display: 'flex',
@@ -46,24 +72,23 @@ function CrudProduct() {
             borderRadius: '8px', 
           }}
         >
-          <TextField name="username" label="Usuario" value={userData.username} onChange={handleChange} margin="dense" />
-          <TextField name="password" label="Contrasena" type="password" value={userData.password} onChange={handleChange} margin="dense"/>
-          <TextField name="first_name" label="Nombre" value={userData.first_name} onChange={handleChange} margin="dense"/>
-          <TextField name="last_name" label="Apellido" value={userData.last_name} onChange={handleChange} margin="dense"/>
-          <TextField name="birth_date" label="Fecha Nacimiento" type="date" value={userData.birth_date} onChange={handleChange} InputLabelProps={{ shrink: true }} margin="dense"/>
+          <TextField name="product_id" label="id" value={userData.product_id} onChange={handleChange} margin="dense" />
+          <TextField name="product_name" label="Nombre del producto" value={userData.product_name} onChange={handleChange} margin="dense"/>
+          <TextField name="unit_price" label="precio unitario" value={userData.unit_price} onChange={handleChange} margin="dense"/>
+          <TextField name="stock" label="stock" value={userData.stock} onChange={handleChange} margin="dense"/>
           <FormControl fullWidth margin="dense">
-          <InputLabel>Tipo de Usuario</InputLabel>
+          <InputLabel>Proveedor</InputLabel>
             <Select
-              name="user_type"
-              value={userData.user_type}
+              name="supplier_id"
+              value={userData.supplier_id}
               onChange={handleChange}
             >
-              <MenuItem value="usuario">Usuario</MenuItem>
-              <MenuItem value="empleado">Empleado</MenuItem>
+              <MenuItem value="1"></MenuItem>
+              <MenuItem value="2"></MenuItem>
             </Select>
           </FormControl>
           
-          <TextField name="payment_portal_account" label="Cuenta Portal Pagos" value={userData.payment_portal_account} onChange={handleChange} margin="dense"/>        
+          <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense"/>        
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
             <IconButton color='secondary' onClick={handleSearch}>
               <Search/>

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { TextField, Container, IconButton, Box} from '@mui/material';
+import { TextField, Container, IconButton, Box, Alert, AlertTitle } from '@mui/material';
 import { Delete, Save, Search } from '@mui/icons-material';
 
-function CrudSupplier() {  
-
+const CrudSupplier = (props) => {
+  const alert = props.alert;
   const [userData, setUserData] = useState({
     supplier_id: '',
     supplier_name: '',
-    description: '',    
+    description: '',
   });
 
   const handleChange = (e) => {
@@ -17,52 +17,76 @@ function CrudSupplier() {
 
   const handleSave = () => {
     console.log('Guardar')
-    //console.log(userData)
-
-    //handleCreateUser(userData);    
+    props.handleSave('http://localhost:3001/api/insertSupplier',
+      userData)
   };
 
-  const handleSearch = () => {
-    console.log('Buscar')    
+  const handleSearch = async () => {
+    console.log('Buscar')
+    const response = await props.handleSearch(
+      'http://localhost:3001/api/searchSupplier?supplier_id',
+      userData.supplier_id)
+    if (response) {
+      setUserData(response)
+    }
   };
 
   const handleDelete = () => {
     console.log('Eliminar')
+    const response = props.handleDelete(
+      'http://localhost:3001/api/deleteSupplier?supplier_id',
+      userData.supplier_id)
+    if (response) {
+      // Limpia los datos de usuario
+      setUserData({
+        supplier_id: '',
+        supplier_name: '',
+        description: '',
+      });
+    }
   };
 
   return (
     <div>
-      <Container sx={{padding:12}} >
+      <Container sx={{ padding: 12 }} >
         <h1>Insersion de Proveedor</h1>
-        <Box 
+        {alert.open && <Alert
+          open={alert.open}
+          severity={alert.severity}
+          onClose={() => props.changeAlert({ ...alert, open: false })}
+        >
+          <AlertTitle>{alert.title}</AlertTitle>
+          {alert.message}
+        </Alert>}
+        <Box
           sx={{
             display: 'flex',
-            flexDirection: 'column',    
-            backgroundColor: '#e3f2fd',   
-            borderRadius: '8px', 
+            flexDirection: 'column',
+            backgroundColor: '#e3f2fd',
+            borderRadius: '8px',
           }}
         >
           <TextField name="supplier_id" label="Identificador" value={userData.supplier_id} onChange={handleChange} margin="dense" />
           <TextField name="supplier_name" label="Nombre" value={userData.supplier_name} onChange={handleChange} margin="dense" />
-          <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense"/>
-          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+          <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense" />
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <IconButton color='secondary' onClick={handleSearch}>
-              <Search/>
+              <Search />
               Buscar
             </IconButton>
             <IconButton color='secondary' onClick={handleSave}>
-              <Save/>
+              <Save />
               Guardar
             </IconButton>
             <IconButton color='Error' onClick={handleDelete}>
-              <Delete/>
+              <Delete />
               Eliminar
             </IconButton>
           </Box>
         </Box>
-        
+
       </Container>
-        
+
     </div>
   )
 }

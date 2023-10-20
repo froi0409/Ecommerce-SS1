@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { TextField, Container, IconButton, Box} from '@mui/material';
+import { TextField, Container, IconButton, Box, Alert, AlertTitle} from '@mui/material';
 import { Delete, Save, Search } from '@mui/icons-material';
 
-function CrudCategory() {  
-
+const CrudCategory = (props) => {  
+  const alert = props.alert;
   const [categoryData, setCategoryData] = useState({
     category_name: '',
     description: '',
@@ -16,23 +16,41 @@ function CrudCategory() {
 
   const handleSave = () => {
     console.log('Guardar')
-    //console.log(categoryData)
-
-    //handleCreateUser(categoryData);
+    props.handleSave('http://localhost:3001/api/insertCategory',categoryData)
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     console.log('Buscar')    
+    const response = await props.handleSearch('http://localhost:3001/api/searchCategory?categoryName',categoryData.category_name)
+    if (response) {
+      setCategoryData(response)
+    }
   };
 
   const handleDelete = () => {
     console.log('Eliminar')
+    const response = props.handleDelete('http://localhost:3001/api/deleteUser?username',categoryData.category_name)
+    if (response) {
+      // Limpia los datos de usuario
+      setCategoryData({
+        category_name: '',
+        description: '',
+      });
+    }
   };
 
   return (
     <div>
       <Container sx={{padding:12}} >
         <h1>Insersion de Categoria</h1>
+        {alert.open && <Alert
+          open={alert.open}
+          severity={alert.severity}
+          onClose={() => props.changeAlert({ ...alert, open: false })}
+        >
+          <AlertTitle>{alert.title}</AlertTitle>
+          {alert.message}
+        </Alert>}
         <Box 
           sx={{
             display: 'flex',
