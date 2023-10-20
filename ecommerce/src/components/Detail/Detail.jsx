@@ -1,40 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import "./styles.css"
 import { Container } from "@mui/material";
 import Gallery from './DetailComponents/Gallery';
 import DescriptionDetail from './DetailComponents/DescriptionDetail';
 import { useLocation } from "react-router-dom";
+import axios from 'axios';
 
 const Detail = ({removeFromCart,addToCart,getQuantityInCart}) => {
   const location = useLocation();
   const idProduct = location.state.idProduct
-  const [quant, setQuant] = useState(0);
-  const [orderedQuant, setOrderedQuant] = useState(0);
-  const addQuant = () => {
-      setQuant(quant + 1);
-  };
+  const [producto, setProducto] = useState([]);
+
+  useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('http://localhost:3000/api/getProduct/'+idProduct);
+          setProducto(response.data);
+        } catch (error) {
+          console.error('Error al obtener datos de la API', error);
+        }
+      };
   
-  const removeQuant = () => {
-    setQuant(quant - 1);
-  };
-  
-  const resetQuant = () => {
-      setQuant(0);
-      setOrderedQuant(0);
-  };
+      fetchData();
+    }, []);
+
+
   return (
     <Container>
         <section className="core">
-            <Gallery></Gallery>
+        <Gallery producto={producto}/>
             <DescriptionDetail 
                 removeFromCart = {removeFromCart}
                 addToCart = {addToCart}
                 getQuantityInCart = {getQuantityInCart}
-                productId = {idProduct}
+                producto = {producto}
             >
             </DescriptionDetail>
-        </section>
-        {idProduct}        
+        </section>      
     </Container>
   )
 }
