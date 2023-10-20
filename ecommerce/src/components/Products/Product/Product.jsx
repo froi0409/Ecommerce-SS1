@@ -39,8 +39,10 @@ function Product({producto,addToCart,getQuantityInCart}) {
             <Typography variant='h6'>
                 Q.{producto.unit_price}
             </Typography>
-            <Typography variant='body2'>
-                {producto.description}
+            <Typography variant="body2" sx={{p: '0 0 0.6em 0', height: '2em'}}>
+                {producto.description.length > 60 // Cambia 100 al límite deseado
+                ? producto.description.substring(0, 60) + "..." // Truncar y agregar "..."
+                : producto.description}
             </Typography>
         </CardContent>
         </ButtonBase>
