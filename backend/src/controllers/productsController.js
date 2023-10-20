@@ -51,8 +51,25 @@ const insertProduct = async (req, res) => {
     
 }
 
+const getCategories = async (req, res) => {
+    const conn = await db.getConnection();
+    let categoryList = {};
+    try {
+        categoryList = await conn.query(' SELECT category_name FROM category');
+        res.json(categoryList);
+    } catch (error) {
+        console.error(error);
+        res.json({
+            message: "Ocurrió un error al obtener las categorias"
+        })
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 export {
     getAllProducts,
     getProductById,
-    insertProduct
+    insertProduct,
+    getCategories
 }

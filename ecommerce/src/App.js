@@ -3,7 +3,16 @@ import { Routes, Route } from 'react-router-dom';
 import { Products, Navbar, Login, Detail, Chat, Cart, Crud} from './components';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    background: {
+      main: '#D9D9D9',
+      default: '#F8F9F9',
+      dark: '#CFE2FF',
+      card: "#D9D9D9",
+    },
+  },
+});
 
 
 const App = () => {
