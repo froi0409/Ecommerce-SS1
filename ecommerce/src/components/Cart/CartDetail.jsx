@@ -27,7 +27,7 @@ const CartDetail = ({cart,removeFromCart,addToCart,productId}) => {
               <CardMedia
                 component="img"
                 sx={{ width: 151 }}
-                image={`data:image/png;base64,${producto.images[0]}`}
+                image={`data:image/png;base64,${producto.images && producto.images[0] ? producto.images[0] : ''}`}
                 alt="Producto"
               />
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
