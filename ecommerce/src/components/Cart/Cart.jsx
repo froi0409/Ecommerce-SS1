@@ -4,8 +4,9 @@ import { useStyles } from "./styles";
 import { useNavigate } from 'react-router-dom';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import CartDetail from './CartDetail';
+import CartCheckout from './CartCheckout';
 
-const Cart = ({cart,removeFromCart,addToCart}) => {
+const Cart = ({cart,removeFromCart,addToCart,getTotalQuantityInCart}) => {
     const classes = useStyles();    
     const navigate = useNavigate();    
     const isCartEmpty = Object.keys(cart).length === 0;  
@@ -33,21 +34,27 @@ const Cart = ({cart,removeFromCart,addToCart}) => {
       {isCartEmpty ? (
         <p>El carrito está vacío.</p>
       ) : (
-        <>
-        {Object.keys(cart).map((productId) => (
-          <CartDetail cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} productId={productId}></CartDetail>
-        ))}
-        <Box sx={{pt:1, display:'flex'}}>
-          <Button variant="contained" startIcon={<ShoppingCartCheckoutIcon/>} onClick={handleButtonClick}>Checkout</Button>
-          <Typography variant='h6' sx={{paddingLeft:16}}>
-            Total: Q.{getTotalPrice()}
-          </Typography>
-        </Box> 
-       </>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>       
+          <Box sx={{width: 1000}}>
+            {Object.keys(cart).map((productId) => (
+              <CartDetail cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} productId={productId}></CartDetail>
+            ))}
+            <Box sx={{pt:1, display:'flex'}}>
+            
+            <Typography variant='h6' sx={{paddingLeft:16}}>
+              Total: Q.{getTotalPrice()}
+            </Typography>
+          </Box>
+          </Box>
+          <div>
+            <CartCheckout cart={cart} getTotalPrice={getTotalPrice} getTotalQuantityInCart={getTotalQuantityInCart}/>
+          </div>
+       </div>
       )}
     </div>
 
   )
 }
+//<Button variant="contained" startIcon={<ShoppingCartCheckoutIcon/>} onClick={handleButtonClick}>Checkout</Button>
 
 export default Cart

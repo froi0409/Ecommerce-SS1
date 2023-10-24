@@ -73,7 +73,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/detail" element={<Detail removeFromCart={removeFromCart} addToCart={addToCart} getQuantityInCart={getQuantityInCart}/>} />
             <Route path="/chat" element={<Chat />} />
-            <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart}/>} />
+            <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} getTotalQuantityInCart={getTotalQuantityInCart} /> } />
             <Route path="/*" element={<Crud />} />
         </Routes>
         </ThemeProvider>
