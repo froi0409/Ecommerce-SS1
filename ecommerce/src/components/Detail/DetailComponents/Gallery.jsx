@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ArrowBack} from '@mui/icons-material';
 
 
 const Gallery = ({producto}) => {
@@ -24,6 +25,19 @@ const Gallery = ({producto}) => {
 
     return (
         <section className="gallery-holder hide-in-mobile">
+          <section className="description">
+          <div className="buttons">
+            <button
+                className="add-to-cart"
+                onClick={() => {
+                  //onSetOrderedQuant(onQuant);
+                }}
+              >
+                <ArrowBack />
+                Regresar
+              </button>
+            </div>
+          </section>          
           <section className="gallery">
             <div className="image">
               <img src={`data:image/jpeg;base64,${images[ind]}`} alt="product-1" />

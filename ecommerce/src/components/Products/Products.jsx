@@ -41,7 +41,7 @@ const Products = ({ addToCart, getQuantityInCart }) => {
             <Grid container spacing={1}>
                 {/* Primera columna */}
                 <Grid item xs={12} sm={2}>
-                    <Categories />
+                    <Categories setProductos={setProductos}/>
                 </Grid>
 
                 {/* Segunda columna */}

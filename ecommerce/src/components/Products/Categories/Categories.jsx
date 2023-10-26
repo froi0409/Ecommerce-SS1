@@ -6,7 +6,7 @@ import Categorie from './Categorie/Categorie';
 
 import axios from 'axios';
 
-const Categories = () => {
+const Categories = ({setProductos}) => {
     const classes = useStyles();
     const [categories, setCategories] = useState([])
     // lista
@@ -21,8 +21,6 @@ const Categories = () => {
         };
         fetchData();
       }, []);
-      console.log("asdfasfd");
-      console.log(categories);
     return (
         <div className={classes.categories_box}>
             <Typography variant="h4" sx ={{
@@ -32,7 +30,7 @@ const Categories = () => {
             </Typography>
             <ul className={classes.categories_list} >
                 {categories.map(category => (
-                    <Categorie key={category.category_name} category={category} />
+                    <Categorie key={category.category_name} category={category} setProductos={setProductos}/>
                 ))}
             </ul>
         </div>

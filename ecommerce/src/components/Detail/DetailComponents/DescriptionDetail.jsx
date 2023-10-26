@@ -1,7 +1,6 @@
 import React from 'react'
-import { ShoppingCart,Add,Remove } from '@mui/icons-material';
+import { ArrowBack,Add,Remove } from '@mui/icons-material';
 import {IconButton} from '@mui/material'
-
 
 const DescriptionDetail = ({ removeFromCart,addToCart,getQuantityInCart ,producto}) => {
   const handleAddToCart = (id) => addToCart(id,producto.unit_price);
@@ -28,15 +27,7 @@ const DescriptionDetail = ({ removeFromCart,addToCart,getQuantityInCart ,product
         <IconButton onClick={() => handleAddToCart(producto.product_id)} disabled={getQuantityInCart(producto.product_id) >= stock}>
           <Add></Add>
         </IconButton>
-        <button
-          className="add-to-cart"
-          onClick={() => {
-            //onSetOrderedQuant(onQuant);
-          }}
-        >
-          <ShoppingCart />
-          add to cart
-        </button>
+        
       </div>
     </section>
   )
@@ -50,6 +41,17 @@ Por si sirve despues es la forma de mostrar descuentos:
           <p>10%</p>
         </div>
         <s>Q750.00</s>
+      </div>
+<div className="buttons">
+      <button
+          className="add-to-cart"
+          onClick={() => {
+            //onSetOrderedQuant(onQuant);
+          }}
+        >
+          <ArrowBack />
+          Regresar
+        </button>
       </div>
 */
 

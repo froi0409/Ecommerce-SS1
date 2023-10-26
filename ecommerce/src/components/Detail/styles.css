@@ -441,6 +441,8 @@ header nav .right .cart button.checkout:hover {
 
 .description .buttons .add-to-cart {
   padding: 15px 40px;
+  margin-bottom: 50px;
+  max-width: 150px;
   background-color: #3f50b5;
   color: #fff;
   text-transform: capitalize;
