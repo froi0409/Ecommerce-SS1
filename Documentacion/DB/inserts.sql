@@ -12,6 +12,7 @@ INSERT INTO SUPPLIER (supplier_name, description) VALUES
 
 
 INSERT INTO CATEGORY (category_name) VALUES
+('Todos'),
 ('Figuras de Acción'),
 ('Figuras de Colección'),
 ('Tecnología'),

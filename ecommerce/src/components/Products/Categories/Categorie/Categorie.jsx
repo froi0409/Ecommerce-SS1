@@ -9,6 +9,9 @@ const Categorie = (props) => {
     const fetchData = async (categoryClassName) => {
       try {
         if (categoryClassName != undefined){
+          const response = await axios.get('http://localhost:3001/api/getProductsByCategory/'+categoryClassName);
+          props.setProductos(response.data);
+        }else if (categoryClassName == "Todos"){
           const response = await axios.get('http://localhost:3001/api/getAllProducts');
           props.setProductos(response.data);
         }
