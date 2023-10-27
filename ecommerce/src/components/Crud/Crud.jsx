@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route  } from 'react-router-dom';
 import CrudProducts from './CrudElements/CrudProduct'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CrudUsuario from './CrudElements/CrudUsuario';
@@ -9,12 +9,23 @@ import axios from 'axios';
 const theme = createTheme();
 
 const Crud = () => {
+  // Verificar si el token está presente y no ha expirado
+  const token = localStorage.getItem('token');
 
   const [alert, setAlert] = useState({ open: false, severity: 'success', title: '', message: '' });
 
   const changeAlert = (data) => {
     setAlert(data)
   }
+
+  if (!token) {
+    // Si no hay token, redirige al inicio de sesión, no he visto como hacer redirect
+    return <h1>inicie sesion</h1>;
+  }
+
+  // Puedes agregar lógica para verificar la validez del token aquí
+
+  // Si el token es válido, renderiza el componente protegido
 
   const handleSave = async (url, dataJson) => {
     let message = ''

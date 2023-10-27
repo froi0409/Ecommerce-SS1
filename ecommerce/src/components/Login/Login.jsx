@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
@@ -11,10 +11,44 @@ import classes from './login.module.css'
 
 import logo from '../../assets/LogoEcommerce.png'
 import NewAccount from './NewAccount/NewAccount';
+import axios from 'axios';
+import API_URL from '../../config/paths';
+
 
 const Login = () => {
-    const loginHandler = (e) => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const passwordChange = (e) => {
+        const {value} = e.target;
+        setPassword(value);
+    }
+
+    const usernameChange = (e) => {
+        const {value} = e.target;
+        setUsername(value);
+    }
+
+    const loginHandler = async (e) => {
         e.preventDefault();
+        // console.log(username,password);
+        //enviar datos al backend
+        await axios.post(`${API_URL}/login`, { username, password })
+        .then((response) => {
+          // Maneja la respuesta del servidor
+          // Almacenar el token en localStorage
+          if (response.data.token) {
+            console.log('token', response.data.token);
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+            return ;
+          } 
+          console.log('no hay token')
+        })
+        .catch((error) => {
+          // Maneja los errores
+          console.log(error.message)
+        });
     }
     return (
         <Fragment>
@@ -41,6 +75,8 @@ const Login = () => {
                             id="standard-basic"
                             label="Escribe tu usuario"
                             variant="standard"
+                            value={username}
+                            onChange={usernameChange}
                             InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -64,6 +100,8 @@ const Login = () => {
                             type="password"
                             autoComplete="current-password"
                             variant="standard"
+                            value={password}
+                            onChange={passwordChange}
                             InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
