@@ -57,3 +57,14 @@ export async function getProductByIdDB(productId) {
     }
 }
 
+export async function getCategoriesDB() {
+    const conn = await db.getConnection();
+    try {
+        const categoryList = await conn.query('SELECT category_name FROM CATEGORY');
+        return categoryList;
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.end();
+    }
+}
