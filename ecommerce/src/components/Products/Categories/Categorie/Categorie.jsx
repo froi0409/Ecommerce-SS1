@@ -2,18 +2,21 @@ import React, {useEffect} from 'react';
 import { useStyles } from './styles';
 import axios from 'axios';
 
-const Categorie = (props) => {
+const Categorie = ({category,setProductos}) => {
     const classes = useStyles()
-    const category = props.category; // Accede a la propiedad "category" desde las props
+    //const category = props.category; // Accede a la propiedad "category" desde las props
 
     const fetchData = async (categoryClassName) => {
       try {
-        if (categoryClassName != undefined){
-          const response = await axios.get('http://localhost:3001/api/getProductsByCategory/'+categoryClassName);
-          props.setProductos(response.data);
-        }else if (categoryClassName == "Todos"){
-          const response = await axios.get('http://localhost:3001/api/getAllProducts');
-          props.setProductos(response.data);
+        if (categoryClassName !== undefined){
+          if (categoryClassName === "Todos"){
+            const response = await axios.get('http://localhost:3001/api/getAllProducts');
+            setProductos(response.data);
+          }else{
+            const response = await axios.get('http://localhost:3001/api/getProductsByCategory/'+categoryClassName);            
+            setProductos(response.data);
+          }
+          
         }
       } catch (error) {
         console.error('Error al obtener datos de la API', error);
