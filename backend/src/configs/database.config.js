@@ -8,7 +8,7 @@ const pool = mariadb.createPool({
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  port: process.env.DATABASE_CONTAINER_PORT
+  port: process.env.DATABASE_LOCAL_PORT
 });
 
 async function connectDB() {
