@@ -86,10 +86,15 @@ const getCategories = async (req, res) => {
     }
 }
 
+const addProduct = async (req, res) => {
+    
+}
+
 export {
     getAllProducts,
     getProductById,
     getProductsByCategory,
     insertProduct,
-    getCategories
+    getCategories,
+    addProduct
 }
