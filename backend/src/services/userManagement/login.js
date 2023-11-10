@@ -24,13 +24,13 @@ export async function login(username, password) {
 }
 
 async function getUsername(conn, username) {
-    const user = await conn.query('SELECT username FROM user WHERE username=?', [username]);
+    const user = await conn.query('SELECT username FROM USER WHERE username=?', [username]);
     if (user.length === 0) return null;
     return user[0].username;
 }
 
 async function isPassword(conn, username, password) {
-    const user = await conn.query('SELECT password FROM user WHERE username=?', [username]);
+    const user = await conn.query('SELECT password FROM USER WHERE username=?', [username]);
     if (user.length === 0) return false;
 
     const storedPassword = user[0].password;

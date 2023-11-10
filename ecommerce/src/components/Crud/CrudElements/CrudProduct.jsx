@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { TextField, Container, IconButton, Box, Select, MenuItem, InputLabel, FormControl, Alert, AlertTitle} from '@mui/material';
-import { Delete, Save, Search } from '@mui/icons-material';
+import { TextField, Container, IconButton, Box, Select, MenuItem, InputLabel, FormControl, Alert, AlertTitle, Button} from '@mui/material';
+import { Delete, Save, Search,CloudUpload } from '@mui/icons-material';
 
 const CrudProduct = (props) => {  
   const alert = props.alert;
@@ -52,6 +52,13 @@ const CrudProduct = (props) => {
     }
   };
 
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const handleFileChange = (e) => {
+    // Actualiza la lista de archivos seleccionados
+    setSelectedFiles(Array.from(e.target.files));
+  };
+
   return (
     <div>
       <Container sx={{padding:12}} >
@@ -88,7 +95,32 @@ const CrudProduct = (props) => {
             </Select>
           </FormControl>
           
-          <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense"/>        
+          <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense" multiline maxRows={4}/>  
+          <Button
+            component="label"
+            variant="contained"
+            startIcon={<CloudUpload />}
+          >
+            {`Upload ${selectedFiles.length} file(s)`}
+            <input
+              type="file"
+              multiple
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+          </Button>
+          {/* Puedes mostrar la lista de archivos seleccionados si lo deseas */}
+          {selectedFiles.length > 0 && (
+            <div>
+              <p>Archivos seleccionados:</p>
+              <ul>
+                {selectedFiles.map((file, index) => (
+                  <li key={index}>{file.name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
             <IconButton color='secondary' onClick={handleSearch}>
               <Search/>
