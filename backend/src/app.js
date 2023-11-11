@@ -4,6 +4,8 @@ import path from 'path';
 import * as db from './configs/database.config.js'
 
 import { ProductsRoutes } from './routes/products.routes.js';
+import { UsersRoutes } from './routes/users.routes.js';
+import { SupplierRoutes } from './routes/suppliers.routes.js';
 
 db.connectDB();
 
@@ -23,6 +25,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', ProductsRoutes);
+app.use('/api', UsersRoutes);
+app.use('/api', SupplierRoutes);
 
 export { app }
 

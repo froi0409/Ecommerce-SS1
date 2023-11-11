@@ -39,6 +39,21 @@ export async function getProductsByCategory(category) {
     }
 }
 
+export async function getEnabledProducts() {
+    const conn = await db.getConnection();
+    try {
+        const productList = await conn.query('SELECT p.*,s.supplier_name FROM PRODUCT AS p INNER JOIN SUPPLIER AS s ON p.supplier_id=s.supplier_id WHERE p.status=1');
+        for (const product of productList) {
+            product.tags = await getTags(conn, product);
+            product.images = await getImages(conn, product);
+        }
+        return productList;
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.end();
+    }
+}
 
 export async function getProductByIdDB(productId) {
     const conn = await db.getConnection();
@@ -132,6 +147,21 @@ export async function updateProduct(info) {
         return {
             status: 200,
             message: 'Producto actualizado con éxito'
+        };
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+export async function disableProductById(productId) {
+    const conn = await db.getConnection();
+    try {
+        const result = await conn.query(`UPDATE PRODUCT SET status=0 WHERE product_id=?`, [productId]);
+        return {
+            status: 200,
+            message: 'Producto desactivado con éxito'
         };
     } catch (error) {
         throw error;

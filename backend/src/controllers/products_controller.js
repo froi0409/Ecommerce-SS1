@@ -35,6 +35,19 @@ export const getProductById = async (req, res) => {
     }
 }
 
+export const getEnabledProducts = async (req, res) => {
+    try {
+        const productList = await dbProductManager.getEnabledProducts();
+        res.json(productList);
+    } catch (error) {
+        console.error(error); 
+        res.json({
+            message: "Ocurrió un error al obtener los productos",
+            message_description: error.message
+        })
+    }
+}
+
 export const getProductsByCategory = async (req, res) => {
     const productCategory= req.params.category;
     try {
@@ -79,9 +92,6 @@ export const insertProduct = async (req, res) => {
             tags: req.body.tags,
             images: req.files
         }
-        if (product.description === undefined) {
-            product.description = 'Sin Descripción';
-        }
 
         console.log(product);
 
@@ -111,6 +121,22 @@ export const updateProduct = async (req, res) => {
         console.error(error);
         res.json({
             message: "Ocurrió un error al actualizar el producto",
+            message_description: error.message
+
+        });
+    }
+}
+
+export const disableProductById = async (req, res) => {
+    const productId = req.body.product_id;
+    console.log(productId);
+    try {
+        const update = await dbProductManager.disableProductById(productId);
+        res.json(update);
+    } catch (error) {
+        console.error(error);
+        res.json({
+            message: "Ocurrió un error al desactivar el producto",
             message_description: error.message
         });
     }
