@@ -125,6 +125,21 @@ export async function insertProduct(product) {
     }
 }
 
+export async function updateProduct(info) {
+    const conn = await db.getConnection();
+    try {
+        const result = await conn.query(`UPDATE PRODUCT SET ${info.filter}=? WHERE product_id=?`, [info.new_value, info.product_id]);
+        return {
+            status: 200,
+            message: 'Producto actualizado con éxito'
+        };
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 function getFileExtension(filename) {
     return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
 }

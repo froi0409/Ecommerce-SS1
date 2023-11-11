@@ -1,7 +1,8 @@
+import { config } from 'dotenv';
 import * as dbProductManager from '../services/productManagement/productsDB.js';
 
 
-const getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res) => {
     try {
         const productList = await dbProductManager.getProductsDB();
         res.json(productList);
@@ -14,7 +15,7 @@ const getAllProducts = async (req, res) => {
     }
 }
 
-const getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
     const productId = req.params.id;
     try {
         const product = await dbProductManager.getProductByIdDB(productId);
@@ -34,7 +35,7 @@ const getProductById = async (req, res) => {
     }
 }
 
-const getProductsByCategory = async (req, res) => {
+export const getProductsByCategory = async (req, res) => {
     const productCategory= req.params.category;
     try {
         const productList = await dbProductManager.getProductsByCategory(productCategory);
@@ -54,7 +55,7 @@ const getProductsByCategory = async (req, res) => {
     }
 }
 
-const getCategories = async (req, res) => {
+export const getCategories = async (req, res) => {
     try {
         const categoryList = await dbProductManager.getCategoriesDB();
         res.json(categoryList);
@@ -67,7 +68,7 @@ const getCategories = async (req, res) => {
     }
 }
 
-const insertProduct = async (req, res) => {
+export const insertProduct = async (req, res) => {
     try {
         const product = {
             product_name: req.body.product_name,
@@ -95,15 +96,28 @@ const insertProduct = async (req, res) => {
     }
 }
 
-const removeProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
+    try {
+        const info = {
+            product_id: req.body.product_id,
+            filter: req.body.filter,
+            new_value: req.body.new_value
+        }   
+
+        const update = await dbProductManager.updateProduct(info);
+        
+        res.json(update);
+    } catch (error) {
+        console.error(error);
+        res.json({
+            message: "Ocurrió un error al actualizar el producto",
+            message_description: error.message
+        });
+    }
+}
+
+export const removeProduct = async (req, res) => {
 
 }
 
-export {
-    getAllProducts,
-    getProductById,
-    getProductsByCategory,
-    insertProduct,
-    getCategories,
-    removeProduct
-}
+
