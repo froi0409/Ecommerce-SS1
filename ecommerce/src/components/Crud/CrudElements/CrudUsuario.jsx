@@ -50,6 +50,7 @@ const CrudUsuario = (props) => {
         birth_date: '',
         user_type: '',
         payment_portal_account: '',
+        payment_portal_password: '',
       });
     }
   };
@@ -95,6 +96,7 @@ const CrudUsuario = (props) => {
           </FormControl>
 
           <TextField name="payment_portal_account" label="Cuenta Portal Pagos" value={userData.payment_portal_account} onChange={handleChange} margin="dense" />
+          <TextField name="payment_portal_password" label="PIN Portal Pagos" value={userData.payment_portal_password} onChange={handleChange} margin="dense" />
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <IconButton color='secondary' onClick={handleSearch}>
               <Search />
