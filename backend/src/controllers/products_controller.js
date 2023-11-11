@@ -8,7 +8,8 @@ const getAllProducts = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.json({
-            message: "Ocurrió un error al obtener los productos"
+            message: "Ocurrió un error al obtener los productos",
+            message_description: error.message
         })
     }
 }
@@ -27,7 +28,8 @@ const getProductById = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.json({
-          message: "Ocurrió un error al obtener el producto"
+          message: "Ocurrió un error al obtener el producto",
+          message_description: error.message
         });
     }
 }
@@ -46,30 +48,8 @@ const getProductsByCategory = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.json({
-            message: "Ocurrió un error al obtener productos"
-        })
-    }
-}
-
-const insertProduct = async (req, res) => {
-    const product = {
-        product_name: req.body.name,
-        unit_price: req.body.unit_price,
-        stock: req.body.stock,
-        supplier_name: req.body.supplier_name,
-        description: req.body.description,
-        tags: req.body.tags,
-        images: req.body.images
-    }
-    try {
-        // const supplierId = await conn.query('SELECT supplier_id FROM SUPPLIER WHERE supplier_name=?', [ product.supplier_name ]);
-        // console.log(supplierId);
-        // const insert = await conn.query('INSERT INTO PRODUCT (product_name,unit_price,stock,supplier_id,description) VALUES (?,?,?,?,?)', [ product.product_name, product.unit_price, product.stock, product.supplier_name, product.description ]);
-        
-    } catch (error) {
-        console.error(error);
-        res.json({
-            message: "Ocurrió un error al insertar el producto"
+            message: "Ocurrió un error al obtener productos",
+            message_description: error.message
         })
     }
 }
@@ -81,13 +61,42 @@ const getCategories = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.json({
-            message: "Ocurrió un error al obtener las categorias"
-        })
+            message: "Ocurrió un error al obtener las categorias",
+            message_description: error.message,
+        });
     }
 }
 
-const addProduct = async (req, res) => {
-    
+const insertProduct = async (req, res) => {
+    try {
+        const product = {
+            product_name: req.body.product_name,
+            unit_price: req.body.unit_price,
+            stock: req.body.stock,
+            supplier_name: req.body.supplier_name,
+            description: req.body.description,
+            tags: req.body.tags,
+            images: req.files
+        }
+        if (product.description === undefined) {
+            product.description = 'Sin Descripción';
+        }
+
+        console.log(product);
+
+        const productInsert = await dbProductManager.insertProduct(product);
+        res.json(productInsert);    
+    } catch (error) {
+        console.error(error);
+        res.json({
+            message: "Ocurrió un error al insertar el producto",
+            message_description: error.message
+        });
+    }
+}
+
+const removeProduct = async (req, res) => {
+
 }
 
 export {
@@ -96,5 +105,5 @@ export {
     getProductsByCategory,
     insertProduct,
     getCategories,
-    addProduct
+    removeProduct
 }

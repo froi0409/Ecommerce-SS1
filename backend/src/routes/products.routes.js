@@ -14,7 +14,8 @@ router.get('/getProductsByCategory/:category', ProductsController.getProductsByC
 
 router.get('/getCategories', ProductsController.getCategories);
 
+router.post('/insertProduct', upload.array('files', 7), ProductsController.insertProduct);
+router.delete('/removeProduct', ProductsController.removeProduct);
 
-router.post('/addProduct', upload.array('files', 7), ProductsController.addProduct);
 
 export { router as ProductsRoutes }

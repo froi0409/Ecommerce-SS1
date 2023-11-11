@@ -1,6 +1,8 @@
 
 import * as db from '../../configs/database.config.js';
 import { getTags, getImages } from './productProperties.js';
+import path from 'path';
+import fs from 'fs';
 
 export async function getProductsDB() {
     const conn = await db.getConnection();
@@ -67,4 +69,62 @@ export async function getCategoriesDB() {
     } finally {
         if (conn) conn.end();
     }
+}
+
+export async function insertProduct(product) {
+    const conn = await db.getConnection();
+    try {
+        
+        // get supplier id
+        const supplierId = await conn.query('SELECT supplier_id FROM SUPPLIER WHERE supplier_name=?', [product.supplier_name]);
+        if (supplierId.length === 0) {
+            throw new Error('Supplier not found');
+        }
+        product.supplier_id = supplierId[0].supplier_id;
+
+        // insert product with supplier_id
+        const result = await conn.query('INSERT INTO PRODUCT (product_name,unit_price,stock,supplier_id,description) VALUES (?,?,?,?,?)', [product.product_name, product.unit_price, product.stock, product.supplier_id, product.description]);
+        const productId = result.insertId;
+
+        // insert product_categories
+        for (const category of product.tags) {
+            await conn.query('INSERT INTO PRODUCT_CATEGORY (product_id,category_name) VALUES (?,?)', [productId, category]);
+            console.log(`categoria ${category} fue agregada con éxito`);
+        }
+        
+        // insert images
+        for (let i = 0; i < product.images.length; i++) {
+            const image = product.images[i];
+            const extension = getFileExtension(image.originalname);
+            const newFileName = `${productId}-${i}.${extension}`;
+
+            image.originalname = newFileName;
+
+
+            const publicPath = path.join('public', 'images', newFileName);
+            try {
+                fs.writeFileSync(publicPath, image.buffer);
+                console.log(`Imagen guardada: ${newFileName}`);
+
+                // insert image
+                const insertImage = await conn.query('INSERT INTO PRODUCT_IMAGE (image_path,product_id) VALUES (?,?)', [newFileName, productId]);
+                console.log(`Se insetó con éxito la imagen ${newFileName} - ${insertImage}`);
+            } catch (error) {
+                console.error(`Error al guardar la imagen ${newFileName}:`, error);
+            }
+        }
+        
+        return {
+            status: 200,
+            message: 'Producto agregado con éxito'
+        };
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+function getFileExtension(filename) {
+    return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
 }
