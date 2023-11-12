@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import { Products, Navbar, Login, Detail, Chat, Cart, Crud, Accountroute,Checkout} from './components';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
+import { AuthProvider } from './context/AuthContext';
+
 const theme = createTheme({
   palette: {
     background: {
@@ -64,7 +66,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <AuthProvider>
         <ThemeProvider theme={theme}>
           <Navbar prodQuantity={getTotalQuantityInCart()}/>
             <Routes>
@@ -79,7 +81,7 @@ const App = () => {
             <Route path="/checkout" element={<Checkout cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} getTotalQuantityInCart={getTotalQuantityInCart} />} />
         </Routes>
         </ThemeProvider>
-    </div>
+    </AuthProvider>
   )
 }
 
