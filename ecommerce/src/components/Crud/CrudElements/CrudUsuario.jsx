@@ -21,7 +21,7 @@ const CrudUsuario = (props) => {
 
   const handleSave = () => {
     console.log('Guardar')
-    props.handleSave(process.env.REACT_APP_API_URL + '/api/insertUser',
+    props.handleSave(process.env.REACT_APP_API_URL + '/api/createUser',
     userData)
   };
 
@@ -90,8 +90,9 @@ const CrudUsuario = (props) => {
               value={userData.user_type}
               onChange={handleChange}
             >
-              <MenuItem value="usuario">Usuario</MenuItem>
-              <MenuItem value="empleado">Empleado</MenuItem>
+              <MenuItem value="CLIENTE">Usuario</MenuItem>
+              <MenuItem value="EMPLEADO">Empleado</MenuItem>
+              <MenuItem value="ADMINISTRADOR">Administrador</MenuItem>
             </Select>
           </FormControl>
 

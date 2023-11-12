@@ -37,7 +37,7 @@ const CrudProduct = (props) => {
   const handleDelete = () => {
     console.log('Eliminar')
     const response = props.handleDelete(
-      process.env.REACT_APP_API_URL + '/api/deleteProduct?product_id',
+      process.env.REACT_APP_API_URL + '/api/removeProduct?product_id',
       userData.username)
     if (response) {
       // Limpia los datos de usuario

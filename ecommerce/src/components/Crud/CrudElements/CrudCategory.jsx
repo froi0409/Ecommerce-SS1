@@ -17,7 +17,7 @@ const CrudCategory = (props) => {
 
   const handleSave = () => {
     console.log('Guardar')
-    props.handleSave(process.env.REACT_APP_API_URL + '/api/insertCategory',categoryData)
+    props.handleSave(process.env.REACT_APP_API_URL + '/api/createCategory',categoryData)
   };
 
   const handleSearch = async () => {
