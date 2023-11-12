@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { TextField, Container, IconButton, Box, Alert, AlertTitle } from '@mui/material';
-import { Delete, Save, Search } from '@mui/icons-material';
+import { Delete, Save, Search, Create } from '@mui/icons-material';
 
 const CrudSupplier = (props) => {
   const alert = props.alert;
@@ -24,8 +24,8 @@ const CrudSupplier = (props) => {
   const handleSearch = async () => {
     console.log('Buscar')
     const response = await props.handleSearch(
-      'http://localhost:3001/api/searchSupplier?supplier_id',
-      userData.supplier_id)
+      'http://localhost:3001/api/searchSupplier?supplier_name',
+      userData.supplier_name)
     if (response) {
       setUserData(response)
     }
@@ -66,7 +66,7 @@ const CrudSupplier = (props) => {
             borderRadius: '8px',
           }}
         >
-          <TextField name="supplier_id" label="Identificador" value={userData.supplier_id} onChange={handleChange} margin="dense" />
+          
           <TextField name="supplier_name" label="Nombre" value={userData.supplier_name} onChange={handleChange} margin="dense" />
           <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense" />
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -92,3 +92,7 @@ const CrudSupplier = (props) => {
 }
 
 export default CrudSupplier
+
+/*
+<TextField name="supplier_id" label="Identificador" value={userData.supplier_id} onChange={handleChange} margin="dense" />
+*/

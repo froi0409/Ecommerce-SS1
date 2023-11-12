@@ -60,7 +60,7 @@ const CrudCategory = (props) => {
           }}
         >
           <TextField name="category_name" label="Nombre" value={categoryData.category_name} onChange={handleChange} margin="dense" />
-          <TextField name="category_name" label="Descripcion" value={categoryData.category_name} onChange={handleChange} margin="dense"/>
+          <TextField name="description" label="Descripcion" value={categoryData.description} onChange={handleChange} margin="dense"/>
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
             <IconButton color='secondary' onClick={handleSearch}>
               <Search/>
