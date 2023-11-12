@@ -9,7 +9,7 @@ const Account = () => {
         { id: 1, name: 'Ordenes', description: 'Record de todas las compras realizadas', image: '/static/images/cards/orders.jpg', link: '/account/orders' },
         { id: 2, name: 'Seguridad', description: 'Edita nombre, usuario, contrasena', image: '/static/images/cards/orders.jpg',    link: '/account/orders' },
         { id: 3, name: 'Direcciones', description: 'Administra todas tus direcciones', image: '/static/images/cards/orders.jpg',   link: '/account/orders' },
-        { id: 4, name: 'Productos', description: 'Agrega, elimina y modifica productos', image: '/static/images/cards/orders.jpg', link: '/account/orders' },
+        { id: 4, name: 'Ajustes', description: 'Agrega, elimina y modifica', image: '/static/images/cards/orders.jpg', link: '/account/crud-menu' },
     ]
 
     return (

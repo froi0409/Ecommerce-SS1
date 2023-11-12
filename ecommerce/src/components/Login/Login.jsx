@@ -14,14 +14,14 @@ import NewAccount from './NewAccount/NewAccount';
 import axios from 'axios';
 import API_URL from '../../config/paths';
 import { useAuth } from '../../context/AuthContext';
-
-// import { useAuth } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const { login } = useAuth();
+    const navigate = useNavigate();
 
     const passwordChange = (e) => {
         const { value } = e.target;
@@ -46,6 +46,8 @@ const Login = () => {
                     const token = response.data.token;
                     // localStorage.setItem('token', token);
                     login(token)
+                    // Redirigir al usuario a /productos
+                    navigate('/');
                     return;
                 }
                 console.log('no hay token')
