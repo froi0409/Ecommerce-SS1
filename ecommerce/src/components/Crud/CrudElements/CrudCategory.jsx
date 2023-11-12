@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { TextField, Container, IconButton, Box, Alert, AlertTitle} from '@mui/material';
 import { Delete, Save, Search } from '@mui/icons-material';
+import API_URL from '../../../config/paths';
 
 const CrudCategory = (props) => {  
   const alert = props.alert;
@@ -16,12 +17,14 @@ const CrudCategory = (props) => {
 
   const handleSave = () => {
     console.log('Guardar')
-    props.handleSave('http://localhost:3001/api/insertCategory',categoryData)
+    // props.handleSave('http://localhost:3001/api/insertCategory',categoryData)
+    props.handleSave(`${API_URL}/insertCategory`,categoryData)
   };
 
   const handleSearch = async () => {
     console.log('Buscar')    
-    const response = await props.handleSearch('http://localhost:3001/api/searchCategory?categoryName',categoryData.category_name)
+    // const response = await props.handleSearch('http://localhost:3001/api/searchCategory?categoryName',categoryData.category_name)
+    const response = await props.handleSearch(`${API_URL}/searchCategory?categoryName`,categoryData.category_name)
     if (response) {
       setCategoryData(response)
     }
@@ -29,7 +32,8 @@ const CrudCategory = (props) => {
 
   const handleDelete = () => {
     console.log('Eliminar')
-    const response = props.handleDelete('http://localhost:3001/api/deleteUser?username',categoryData.category_name)
+    // const response = props.handleDelete('http://localhost:3001/api/deleteUser?username',categoryData.category_name)
+    const response = props.handleDelete(`${API_URL}/deleteUser?username`,categoryData.category_name)
     if (response) {
       // Limpia los datos de usuario
       setCategoryData({

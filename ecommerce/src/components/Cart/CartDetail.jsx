@@ -3,6 +3,7 @@ import { Box,Card,CardContent,CardMedia,Typography ,IconButton,Button} from '@mu
 import imagenPrueba1 from '../../assets/fotoPrueba1.jpg'
 import { Add,Remove } from "@mui/icons-material";
 import axios from 'axios';
+import API_URL from '../../config/paths';
 
 const CartDetail = ({cart,removeFromCart,addToCart,productId}) => {
     
@@ -10,7 +11,8 @@ const CartDetail = ({cart,removeFromCart,addToCart,productId}) => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get('http://localhost:3001/api/getProduct/'+productId);
+            // const response = await axios.get('http://localhost:3001/api/getProduct/'+productId);
+            const response = await axios.get(`${API_URL}/getProduct/`+productId);
             setProducto(response.data);
           } catch (error) {
             console.error('Error al obtener datos de la API', error);
