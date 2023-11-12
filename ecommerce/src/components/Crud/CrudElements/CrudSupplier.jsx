@@ -17,14 +17,14 @@ const CrudSupplier = (props) => {
 
   const handleSave = () => {
     console.log('Guardar')
-    props.handleSave('http://localhost:3001/api/insertSupplier',
+    props.handleSave(process.env.REACT_APP_API_URL + '/api/insertSupplier',
       userData)
   };
 
   const handleSearch = async () => {
     console.log('Buscar')
     const response = await props.handleSearch(
-      'http://localhost:3001/api/searchSupplier?supplier_name',
+      process.env.REACT_APP_API_URL + '/api/searchSupplier?supplier_name',
       userData.supplier_name)
     if (response) {
       setUserData(response)
@@ -34,7 +34,7 @@ const CrudSupplier = (props) => {
   const handleDelete = () => {
     console.log('Eliminar')
     const response = props.handleDelete(
-      'http://localhost:3001/api/deleteSupplier?supplier_id',
+      process.env.REACT_APP_API_URL + '/api/deleteSupplier?supplier_id',
       userData.supplier_id)
     if (response) {
       // Limpia los datos de usuario

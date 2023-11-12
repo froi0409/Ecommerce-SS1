@@ -37,7 +37,7 @@ const Login = () => {
         e.preventDefault();
         // console.log(username,password);
         //enviar datos al backend
-        await axios.post(`${API_URL}/login`, { username, password })
+        await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, { username, password })
             .then((response) => {
                 // Maneja la respuesta del servidor
                 // Almacenar el token en localStorage

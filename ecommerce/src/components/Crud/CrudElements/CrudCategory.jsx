@@ -16,12 +16,12 @@ const CrudCategory = (props) => {
 
   const handleSave = () => {
     console.log('Guardar')
-    props.handleSave('http://localhost:3001/api/insertCategory',categoryData)
+    props.handleSave(process.env.REACT_APP_API_URL + '/api/insertCategory',categoryData)
   };
 
   const handleSearch = async () => {
     console.log('Buscar')    
-    const response = await props.handleSearch('http://localhost:3001/api/searchCategory?categoryName',categoryData.category_name)
+    const response = await props.handleSearch(process.env.REACT_APP_API_URL + '/api/searchCategory?categoryName',categoryData.category_name)
     if (response) {
       setCategoryData(response)
     }
@@ -29,7 +29,7 @@ const CrudCategory = (props) => {
 
   const handleDelete = () => {
     console.log('Eliminar')
-    const response = props.handleDelete('http://localhost:3001/api/deleteUser?username',categoryData.category_name)
+    const response = props.handleDelete(process.env.REACT_APP_API_URL + '/api/deleteUser?username',categoryData.category_name)
     if (response) {
       // Limpia los datos de usuario
       setCategoryData({

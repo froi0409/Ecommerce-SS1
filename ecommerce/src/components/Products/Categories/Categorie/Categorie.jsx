@@ -10,10 +10,10 @@ const Categorie = ({category,setProductos}) => {
       try {
         if (categoryClassName !== undefined){
           if (categoryClassName === "Todos"){
-            const response = await axios.get('http://localhost:3001/api/getAllProducts');
+            const response = await axios.get(process.env.REACT_APP_API_URL + '/api/getAllProducts');
             setProductos(response.data);
           }else{
-            const response = await axios.get('http://localhost:3001/api/getProductsByCategory/'+categoryClassName);            
+            const response = await axios.get(process.env.REACT_APP_API_URL + '/getProductsByCategory/'+categoryClassName);            
             setProductos(response.data);
           }
           

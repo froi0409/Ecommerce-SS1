@@ -10,7 +10,7 @@ const CartDetail = ({cart,removeFromCart,addToCart,productId}) => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get('http://localhost:3001/api/getProduct/'+productId);
+            const response = await axios.get(process.env.REACT_APP_API_URL + '/api/getProduct/'+productId);
             setProducto(response.data);
           } catch (error) {
             console.error('Error al obtener datos de la API', error);

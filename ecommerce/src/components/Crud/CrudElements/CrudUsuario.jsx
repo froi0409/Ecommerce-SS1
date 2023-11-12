@@ -21,14 +21,14 @@ const CrudUsuario = (props) => {
 
   const handleSave = () => {
     console.log('Guardar')
-    props.handleSave('http://localhost:3001/api/insertUser',
+    props.handleSave(process.env.REACT_APP_API_URL + '/api/insertUser',
     userData)
   };
 
   const handleSearch = async () => {
     console.log('Buscar')    
     const response = await props.handleSearch(
-      'http://localhost:3001/api/searchUser?username',
+      process.env.REACT_APP_API_URL + '/api/searchUser?username',
       userData.username)
     if (response) {
       setUserData(response)
@@ -38,7 +38,7 @@ const CrudUsuario = (props) => {
   const handleDelete = () => {
     console.log('Eliminar')
     const response = props.handleDelete(
-      'http://localhost:3001/api/deleteUser?username',
+      process.env.REACT_APP_API_URL + '/api/deleteUser?username',
       userData.username)
     if (response) {
       // Limpia los datos de usuario

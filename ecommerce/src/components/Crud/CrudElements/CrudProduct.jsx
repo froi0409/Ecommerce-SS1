@@ -20,14 +20,14 @@ const CrudProduct = (props) => {
 
   const handleSave = () => {
     console.log('Guardar')
-    props.handleSave('http://localhost:3001/api/insertProduct',
+    props.handleSave(process.env.REACT_APP_API_URL + '/api/insertProduct',
     userData)
   };
 
   const handleSearch = async () => {
     console.log('Buscar')
     const response = await props.handleSearch(
-      'http://localhost:3001/api/searchProduct?product_name',
+      process.env.REACT_APP_API_URL + '/api/searchProduct?product_name',
       userData.product_name)
     if (response) {
       setUserData(response)
@@ -37,7 +37,7 @@ const CrudProduct = (props) => {
   const handleDelete = () => {
     console.log('Eliminar')
     const response = props.handleDelete(
-      'http://localhost:3001/api/deleteProduct?product_id',
+      process.env.REACT_APP_API_URL + '/api/deleteProduct?product_id',
       userData.username)
     if (response) {
       // Limpia los datos de usuario
