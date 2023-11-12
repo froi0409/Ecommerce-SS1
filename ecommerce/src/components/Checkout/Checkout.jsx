@@ -1,7 +1,8 @@
 import React,{useState} from 'react'
 import { TextField, Container, Button, Box, Alert, AlertTitle, Typography, InputLabel,MenuItem,Select} from '@mui/material';
-import { PersonAdd, Login, Add } from '@mui/icons-material'
+import { PersonAdd, Login, Add, Password } from '@mui/icons-material'
 import CheckoutCart from './CheckoutCart';
+import { Link } from 'react-router-dom';
 
 const Checkout = ({cart,removeFromCart,addToCart,getTotalQuantityInCart}) => {
 
@@ -60,15 +61,21 @@ const Checkout = ({cart,removeFromCart,addToCart,getTotalQuantityInCart}) => {
                     )}
                     <br/>
                     <br/>
-                    <Typography variant='h5'> Tipo de pago</Typography>
-                    <InputLabel id="combo-box-label">Un tipo de pago</InputLabel>
+                    <Typography variant='h5'> Informacion de la plataforma de pagos</Typography>
+                    <TextField sx={{marginRight:2}} id="payment_portal_account" label="Usuario Portal de Pagos" variant="filled" margin="dense"/>
+                    <TextField sx={{marginRight:2}} id="payment_portal_password" label="Contrasena Portal de Pagos" variant="filled" margin="dense"/>
+                    <Button sx={{marginTop:1}} variant="contained" startIcon={<Password/>} >Validar Contrasena</Button>
                 </div>
             ) : (
                 <div>
                     <p>Parece que aun no has ingresado</p>
-                    <Button variant="contained" startIcon={<Login/>} >Ingresar</Button>
+                    <Link to="/login" style={{ textDecoration: 'none' }} variant="contained">
+                      <Button variant="contained" startIcon={<Login/>} >Ingresar</Button>
+                    </Link>
                     <p>O no tienes una cuenta?</p>
-                    <Button variant="contained" startIcon={<PersonAdd/>} >Crear Cuenta</Button>
+                    <Link to="/new" style={{ textDecoration: 'none' }} variant="contained">
+                      <Button variant="contained" startIcon={<PersonAdd/>} >Crear Cuenta</Button>
+                    </Link>
                 </div>
             )}
             
