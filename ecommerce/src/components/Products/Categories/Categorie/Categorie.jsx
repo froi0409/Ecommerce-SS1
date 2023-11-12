@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import { useStyles } from './styles';
 import axios from 'axios';
+import API_URL from '../../../../config/paths';
 
 const Categorie = ({category,setProductos}) => {
     const classes = useStyles()
@@ -10,10 +11,12 @@ const Categorie = ({category,setProductos}) => {
       try {
         if (categoryClassName !== undefined){
           if (categoryClassName === "Todos"){
-            const response = await axios.get(process.env.REACT_APP_API_URL + '/api/getAllProducts');
+            // const response = await axios.get('http://localhost:3001/api/getAllProducts');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/getAllProducts/`);
             setProductos(response.data);
           }else{
-            const response = await axios.get(process.env.REACT_APP_API_URL + '/getProductsByCategory/'+categoryClassName);            
+            // const response = await axios.get('http://localhost:3001/api/getProductsByCategory/'+categoryClassName);            
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/getProductsByCategory/`+categoryClassName);
             setProductos(response.data);
           }
           

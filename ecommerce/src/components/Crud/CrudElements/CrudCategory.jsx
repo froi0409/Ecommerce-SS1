@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { TextField, Container, IconButton, Box, Alert, AlertTitle} from '@mui/material';
 import { Delete, Save, Search } from '@mui/icons-material';
+import API_URL from '../../../config/paths';
 
 const CrudCategory = (props) => {  
   const alert = props.alert;

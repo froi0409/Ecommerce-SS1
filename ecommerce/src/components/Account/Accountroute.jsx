@@ -5,6 +5,7 @@ import Account from './Account';
 import Orders from './Orders/Orders';
 import DeniedAuth from '../DeniedAuth/DeniedAuth';
 import isAuthenticated from '../../config/auth';
+import AccountCrud from './AccountCrud/AccountCrud';
 
 const Accountroute = () => {
     if (!isAuthenticated()) {
@@ -15,6 +16,7 @@ const Accountroute = () => {
             <Routes >
                 <Route path="/" element={<Account />} />
                 <Route path="/orders" element={<Orders />} />
+                <Route path="/crud-menu" element={<AccountCrud />} />
             </Routes>
         </div>
     );

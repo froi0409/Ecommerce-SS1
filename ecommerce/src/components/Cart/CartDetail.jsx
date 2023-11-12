@@ -3,6 +3,7 @@ import { Box,Card,CardContent,CardMedia,Typography ,IconButton,Button} from '@mu
 import imagenPrueba1 from '../../assets/fotoPrueba1.jpg'
 import { Add,Remove } from "@mui/icons-material";
 import axios from 'axios';
+import API_URL from '../../config/paths';
 
 const CartDetail = ({cart,removeFromCart,addToCart,productId}) => {
     

@@ -5,6 +5,7 @@ import { Typography } from '@mui/material';
 import Categorie from './Categorie/Categorie';
 
 import axios from 'axios';
+import API_URL from '../../../config/paths';
 
 const Categories = ({setProductos}) => {
     const classes = useStyles();
@@ -13,7 +14,8 @@ const Categories = ({setProductos}) => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get(process.env.REACT_APP_API_URL + '/api/getCategories');
+            // const response = await axios.get('http://localhost:3001/api/getCategories');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/getCategories/`);
             setCategories(response.data);
           } catch (error) {
             console.error('Error al obtener datos de la API', error);

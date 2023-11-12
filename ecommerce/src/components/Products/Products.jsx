@@ -5,6 +5,7 @@ import Product from "./Product/Product";
 import { useStyles } from "./styles";
 import axios from 'axios';
 import Categories from "./Categories/Categories";
+import API_URL from "../../config/paths";
 
 
 const Products = ({ addToCart, getQuantityInCart }) => {
@@ -17,7 +18,8 @@ const Products = ({ addToCart, getQuantityInCart }) => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get( process.env.REACT_APP_API_URL + '/api/getAllProducts');
+            // const response = await axios.get('http://localhost:3001/api/getAllProducts');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/getAllProducts`);
             setProductos(response.data);
           } catch (error) {
             console.error('Error al obtener datos de la API', error);
