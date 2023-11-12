@@ -2,8 +2,11 @@ import { ShoppingCartCheckout } from '@mui/icons-material'
 import { Box, Typography, Button } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const CartCheckout = ({cart,getTotalPrice,getTotalQuantityInCart}) => {
+  const {userData } = useAuth()
+
   return (
     <Box sx={{width: 500,
         height: 300,
@@ -17,7 +20,7 @@ const CartCheckout = ({cart,getTotalPrice,getTotalQuantityInCart}) => {
             <Typography variant='h3'> Checkout</Typography>
         </Box>
         <br/>
-        <Typography variant='h6'> Usuario: </Typography>
+        <Typography variant='h6'> {userData && userData.name ? `Usuario: ${userData.name}` : null} </Typography>
         <Typography variant='h6'> Cantidad de Productos: {getTotalQuantityInCart()} </Typography>
         <Typography variant='h6'> Total: Q.{getTotalPrice()}</Typography>
         <br/>

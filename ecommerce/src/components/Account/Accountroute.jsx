@@ -7,19 +7,21 @@ import DeniedAuth from '../DeniedAuth/DeniedAuth';
 import isAuthenticated from '../../config/auth';
 import AccountCrud from './AccountCrud/AccountCrud';
 import { useAuth } from '../../context/AuthContext';
+import AccountSecurity from './AccountSecurity/AccountSecurity';
 
 const Accountroute = () => {
     const {userData} = useAuth();
-    const isClient = userData.type === 'CLIENTE';
     if (!isAuthenticated()) {
         return <DeniedAuth />
     }
+    const isClient = userData.type === 'CLIENTE';
     return (
         <div>
             <Routes >
                 <Route path="/" element={<Account />} />
                 <Route path="/orders" element={<Orders />} />
-                {!isClient && <Route path="/crud-menu" element={<AccountCrud />} />}
+                <Route path="/security" element={<AccountSecurity />} />
+                {!isClient && <Route path="/crud-menu" element={<AccountCrud />} />}                
             </Routes>
         </div>
     );
