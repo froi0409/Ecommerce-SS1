@@ -11,7 +11,7 @@ export async function login(username, password) {
         const isPassw = await isPassword(conn, username, password);
 
         if (user && isPassw) {
-            const token = generateToken(username);
+            const token = generateToken(user);
             return token;
         } else {
             throw new Error('Credenciales incorrectas');
@@ -24,9 +24,9 @@ export async function login(username, password) {
 }
 
 async function getUsername(conn, username) {
-    const user = await conn.query('SELECT username FROM USER WHERE username=?', [username]);
+    const user = await conn.query('SELECT username,first_name,user_type FROM USER WHERE username=?', [username]);
     if (user.length === 0) return null;
-    return user[0].username;
+    return {username: user[0].username, first_name: user[0].first_name, user_type: user[0].user_type};
 }
 
 async function isPassword(conn, username, password) {
@@ -43,10 +43,10 @@ async function isPassword(conn, username, password) {
 function generateToken(username) {
     // Define la información que deseas incluir en el token
     const payload = {
-        user: username,
-        // Opcional: puedes agregar más información aquí
-    };
-
+        user: username.username,
+        name: username.first_name,
+        type: username.user_type
+    };   
     // Genera el token JWT con un tiempo de expiración (por ejemplo, 1 hora)
     const token = jwt.sign(payload, process.env.MY_SECRET_KEY,{ expiresIn: '1h' });
 

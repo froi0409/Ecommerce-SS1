@@ -14,7 +14,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function ButtonsNav({ cantidadProductos }) {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, userData } = useAuth();
   const navigate = useNavigate();
   const [value, setValue] = React.useState('recents');
   const [openLogoutDialog, setOpenLogoutDialog] = React.useState(false);
@@ -91,7 +91,7 @@ export default function ButtonsNav({ cantidadProductos }) {
         to="/cart" // Ruta que quieres enlazar
       />
       {isAuthenticated && <BottomNavigationAction
-        label="Cuenta"
+        label={userData.user}
         value="account"
         icon={<AccountCircleIcon />}
         component={Link}

@@ -6,12 +6,15 @@ import CrudUsuario from './CrudElements/CrudUsuario';
 import CrudSupplier from './CrudElements/CrudSupplier';
 import CrudCategory from './CrudElements/CrudCategory';
 import axios from 'axios';
+import DeniedAuth from '../DeniedAuth/DeniedAuth';
+import { useAuth } from '../../context/AuthContext';
 const theme = createTheme();
 
 const Crud = () => {
   // Verificar si el token está presente y no ha expirado
   const token = localStorage.getItem('token');
-
+  const {userData} = useAuth()
+  const isAdmin = userData.type === 'ADMINISTRADOR';
   const [alert, setAlert] = useState({ open: false, severity: 'success', title: '', message: '' });
 
   const changeAlert = (data) => {
@@ -20,7 +23,7 @@ const Crud = () => {
 
   if (!token) {
     // Si no hay token, redirige al inicio de sesión, no he visto como hacer redirect
-    return <h1>inicie sesion</h1>;
+    return <DeniedAuth />
   }
 
   // Puedes agregar lógica para verificar la validez del token aquí
@@ -155,13 +158,13 @@ const Crud = () => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Routes>
+        {isAdmin && <Routes>
           <Route path="/" element={<CrudProducts />} />
           <Route path="/crudproduct" element={<CrudProducts alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleSearch={handleSearch} handleDelete={handleDelete} />} />
           <Route path="/crudusuario" element={<CrudUsuario alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleSearch={handleSearch} handleDelete={handleDelete} />} />
           <Route path="/crudsupplier" element={<CrudSupplier alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleSearch={handleSearch} handleDelete={handleDelete} />} />
           <Route path="/crudcategory" element={<CrudCategory alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleSearch={handleSearch} handleDelete={handleDelete} />} />
-        </Routes>
+        </Routes>}
       </ThemeProvider>
     </div>
   )

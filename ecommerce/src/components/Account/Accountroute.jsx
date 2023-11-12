@@ -6,8 +6,11 @@ import Orders from './Orders/Orders';
 import DeniedAuth from '../DeniedAuth/DeniedAuth';
 import isAuthenticated from '../../config/auth';
 import AccountCrud from './AccountCrud/AccountCrud';
+import { useAuth } from '../../context/AuthContext';
 
 const Accountroute = () => {
+    const {userData} = useAuth();
+    const isClient = userData.type === 'CLIENTE';
     if (!isAuthenticated()) {
         return <DeniedAuth />
     }
@@ -16,7 +19,7 @@ const Accountroute = () => {
             <Routes >
                 <Route path="/" element={<Account />} />
                 <Route path="/orders" element={<Orders />} />
-                <Route path="/crud-menu" element={<AccountCrud />} />
+                {!isClient && <Route path="/crud-menu" element={<AccountCrud />} />}
             </Routes>
         </div>
     );
