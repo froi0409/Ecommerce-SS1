@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
-import {Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import Button from '@mui/material/Button';
 import PersonIcon from '@mui/icons-material/Person';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -13,19 +13,23 @@ import logo from '../../assets/LogoEcommerce.png'
 import NewAccount from './NewAccount/NewAccount';
 import axios from 'axios';
 import API_URL from '../../config/paths';
+import { useAuth } from '../../context/AuthContext';
+
+// import { useAuth } from '../../../context/AuthContext';
 
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { login } = useAuth();
 
     const passwordChange = (e) => {
-        const {value} = e.target;
+        const { value } = e.target;
         setPassword(value);
     }
 
     const usernameChange = (e) => {
-        const {value} = e.target;
+        const { value } = e.target;
         setUsername(value);
     }
 
@@ -34,21 +38,22 @@ const Login = () => {
         // console.log(username,password);
         //enviar datos al backend
         await axios.post(`${API_URL}/login`, { username, password })
-        .then((response) => {
-          // Maneja la respuesta del servidor
-          // Almacenar el token en localStorage
-          if (response.data.token) {
-            console.log('token', response.data.token);
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            return ;
-          } 
-          console.log('no hay token')
-        })
-        .catch((error) => {
-          // Maneja los errores
-          console.log(error.message)
-        });
+            .then((response) => {
+                // Maneja la respuesta del servidor
+                // Almacenar el token en localStorage
+                if (response.data.token) {
+                    console.log('token', response.data.token);
+                    const token = response.data.token;
+                    // localStorage.setItem('token', token);
+                    login(token)
+                    return;
+                }
+                console.log('no hay token')
+            })
+            .catch((error) => {
+                // Maneja los errores
+                console.log(error.message)
+            });
     }
     return (
         <Fragment>
@@ -69,8 +74,8 @@ const Login = () => {
                         }}
                         noValidate
                         autoComplete="on"
-                        
-                        >
+
+                    >
                         <TextField
                             id="standard-basic"
                             label="Escribe tu usuario"
@@ -78,11 +83,11 @@ const Login = () => {
                             value={username}
                             onChange={usernameChange}
                             InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                <PersonIcon />
-                                </InputAdornment>
-                            ),
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <PersonIcon />
+                                    </InputAdornment>
+                                ),
                             }}
                         />
                     </Box>
@@ -103,19 +108,19 @@ const Login = () => {
                             value={password}
                             onChange={passwordChange}
                             InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                <LockIcon />
-                                </InputAdornment>
-                            ),
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <LockIcon />
+                                    </InputAdornment>
+                                ),
                             }}
                         />
                     </Box>
                     <Button
                         sx={{
-                            borderRadius: '0.625rem', background: '#9EC5FE', 
+                            borderRadius: '0.625rem', background: '#9EC5FE',
                             color: 'black',
-                            m:1.5,
+                            m: 1.5,
                             width: '51ch',
                         }}
                         variant="contained"
