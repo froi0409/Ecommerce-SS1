@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowBack} from '@mui/icons-material';
-
+import { Button} from '@mui/material'
+import { Link } from 'react-router-dom';
 
 const Gallery = ({producto}) => {
   const images = producto && producto.images ? producto.images : [];
@@ -27,15 +28,11 @@ const Gallery = ({producto}) => {
         <section className="gallery-holder hide-in-mobile">
           <section className="description">
           <div className="buttons">
-            <button
-                className="add-to-cart"
-                onClick={() => {
-                  //onSetOrderedQuant(onQuant);
-                }}
-              >
-                <ArrowBack />
+            <Link to="/products" style={{ textDecoration: 'none' }} variant="contained">
+              <Button className="add-to-cart" variant="contained" startIcon={<ArrowBack /> }>
                 Regresar
-              </button>
+              </Button>
+            </Link>
             </div>
           </section>          
           <section className="gallery">

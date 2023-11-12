@@ -47,7 +47,7 @@ const Checkout = ({cart,removeFromCart,addToCart,getTotalQuantityInCart}) => {
                     >
                       <MenuItem value="Nueva Direccion">Nueva Direccion</MenuItem>
                       <MenuItem value="address1">Direccion 1</MenuItem>
-                      <MenuItem value="address1">Direccion 1</MenuItem>
+                      <MenuItem value="address1">Direccion 2</MenuItem>
                     </Select>
                     {selectedOption === "Nueva Direccion" ? (
                         <div>
