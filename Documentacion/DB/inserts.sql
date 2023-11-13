@@ -24,12 +24,12 @@ INSERT INTO CATEGORY (category_name) VALUES
 ('Comics'),
 ('Varios');
 
-INSERT INTO PRODUCT (product_name, unit_price, stock, supplier_id, status, description) VALUES
-('Venom Sixth Scale',1140.00,10,1, 1, 'Figura de acción tamaño mediano, incluye diferentes expresiones faciales'),
-('Aang Avatar 541',250.00,15,2, 1,'Funko pop edición especial'),
-('Flashpoint #1',475.50,5,4, 1,'Barry Allen decide regresar en el tiempo para salvar a su madre, lo cual provoca que el presente se altere'),
-('Civil War #7',150.75,5,5, 1,'Ironman y Capitan América se ven forzados a reclutar superheroes divididos en bandos debido a un conflicto con la identidad secreta de los superheroes'),
-('EA FIFA 2023 WorldCup edition PS5',450.00,15,7, 1,'Incluye modo UEFA Champions League y FIFA World Cup Qatar 2023');
+INSERT INTO PRODUCT (product_name, unit_price, stock, supplier_id, status, date, description) VALUES
+('Venom Sixth Scale',1140.00,10,1, 1, '2023-01-01', 'Figura de acción tamaño mediano, incluye diferentes expresiones faciales'),
+('Aang Avatar 541',250.00,15,2, 1, '2023-02-02','Funko pop edición especial'),
+('Flashpoint #1',475.50,5,4, 1, '2023-03-03','Barry Allen decide regresar en el tiempo para salvar a su madre, lo cual provoca que el presente se altere'),
+('Civil War #7',150.75,5,5, 1, '2023-04-04','Ironman y Capitan América se ven forzados a reclutar superheroes divididos en bandos debido a un conflicto con la identidad secreta de los superheroes'),
+('EA FIFA 2023 WorldCup edition PS5',450.00,15,7, 1, '2023-05-05','Incluye modo UEFA Champions League y FIFA World Cup Qatar 2023');
 
 INSERT INTO PRODUCT_CATEGORY (product_id, category_name) VALUES
 (1,'Figuras de Acción'),
