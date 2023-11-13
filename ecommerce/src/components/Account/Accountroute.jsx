@@ -9,6 +9,7 @@ import AccountCrud from './AccountCrud/AccountCrud';
 import { useAuth } from '../../context/AuthContext';
 import AccountSecurity from './AccountSecurity/AccountSecurity';
 import Reportroute from './Reports/Reportroute';
+import Portal  from './Portal/Portal';
 
 const Accountroute = () => {
     const {userData} = useAuth();
@@ -22,6 +23,7 @@ const Accountroute = () => {
                 <Route path="/" element={<Account />} />
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/security" element={<AccountSecurity />} />
+                <Route path="/portal" element={<Portal />} />
                 <Route path="/reports/*" element={<Reportroute />} />
                 {!isClient && <Route path="/crud-menu" element={<AccountCrud />} />}                
             </Routes>
