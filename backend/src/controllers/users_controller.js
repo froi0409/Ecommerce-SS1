@@ -158,3 +158,17 @@ export const getPaymentPortalAccountsByUsername = async (req, res) => {
         });
     }   
 }
+
+export const getPurchaesByUsername = async (req, res) => {
+    const username = req.params.username;
+    try {
+        const purchasesList = await dbUserManager.getPurchaesByUsername(username);
+        res.json(purchasesList);
+    } catch (error) {
+        console.error(error);
+        res.json({
+            message: "Ocurrió un error al consultar las compras",
+            message_description: error.message
+        });
+    }
+}

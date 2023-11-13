@@ -187,6 +187,36 @@ export async function getPaymentPortalAccountsByUsername(username) {
     }
 }
 
+export async function getPurchaesByUsername(username) {
+    const conn = await db.getConnection();
+    try {
+        const query = `
+        SELECT
+            s.sale_id,
+            s.sale_date,
+            s.sale_hour,
+            GROUP_CONCAT(p.product_name ORDER BY pd.detail_id ASC) AS product_list,
+            FORMAT(SUM(pd.subtotal), 2) AS total_sale
+        FROM
+            SALE AS s
+        JOIN
+            PRODUCT_DETAIL AS pd ON s.sale_id = pd.sale_id
+        JOIN
+            PRODUCT AS p ON pd.product_id = p.product_id
+        WHERE
+            s.status = 1 AND s.user_username = ?
+        GROUP BY
+            s.sale_id, s.sale_date, s.sale_hour;
+        `;
+        const purchasesList = await conn.query(query, [ username ]);
+        return purchasesList;
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 export async function hashPassword(password) {
     try {
         const salt = await bcrypt.genSalt(saltRounds);
