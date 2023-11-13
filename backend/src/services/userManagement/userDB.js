@@ -5,7 +5,7 @@ const saltRounds = 10;
 export async function getAllUsers() {
     const conn = await db.getConnection();
     try {
-        const usersList = await conn.query('SELECT username,first_name,last_name,birth_date,user_type,payment_portal_account FROM USER');
+        const usersList = await conn.query('SELECT username,first_name,last_name,birth_date,user_type FROM USER');
         return usersList;
     } catch (error) {
         throw error;
@@ -17,7 +17,7 @@ export async function getAllUsers() {
 export async function getUserByUsername(username) {
     const conn = await db.getConnection();
     try {
-        const user = await conn.query('SELECT username,first_name,last_name,birth_date,user_type,payment_portal_account FROM USER WHERE username = ?', [ username ]);
+        const user = await conn.query('SELECT username,first_name,last_name,birth_date,user_type FROM USER WHERE username = ?', [ username ]);
         console.log(user);
         if (user.length === 0) {
             throw new Error(`No existe el usuario ${username}`);
@@ -48,14 +48,13 @@ export async function createUser (userInfo) {
 
     const conn = await db.getConnection();
     try {
-        const user = await conn.query('INSERT INTO USER (username, password, first_name, last_name, birth_date, user_type, payment_portal_account) VALUES (?,?,?,?,?,?,?);', [
+        const user = await conn.query('INSERT INTO USER (username, password, first_name, last_name, birth_date, user_type) VALUES (?,?,?,?,?,?);', [
             userInfo.username,
             userInfo.password,
             userInfo.first_name,
             userInfo.last_name,
             userInfo.birth_date,
-            userInfo.user_type,
-            userInfo.payment_portal_account
+            userInfo.user_type
         ]);
         return user;
     } catch (error) {
