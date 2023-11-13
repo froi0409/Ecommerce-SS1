@@ -7,6 +7,7 @@ import { ProductsRoutes } from './routes/products.routes.js';
 import { UsersRoutes } from './routes/users.routes.js';
 import { SupplierRoutes } from './routes/suppliers.routes.js';
 import { CategoriesRoutes } from './routes/categories.routes.js';
+import { SalesRoutes } from './routes/sales.routes.js';
 
 db.connectDB();
 
@@ -29,6 +30,7 @@ app.use('/api', ProductsRoutes);
 app.use('/api', UsersRoutes);
 app.use('/api', SupplierRoutes);
 app.use('/api', CategoriesRoutes);
+app.use('/api', SalesRoutes); 
 
 export { app }
 

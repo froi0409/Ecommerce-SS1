@@ -155,9 +155,21 @@ export async function deleteUser () {
 }
 
 export async function addPaymentPortalAccount(accountInfo) { 
+    const conn = await db.getConnection();
     try {
         const isValidAccount = await validateAccount(accountInfo.payment_portal_account, accountInfo.payment_portal_password);
-        return isValidAccount;
+        if (!isValidAccount) {
+            throw new Error('Los datos de la cuenta ingresada no son válidos, verifica que los datos sean correctos');
+        }
+
+        // verify if the user is already in the account
+        const hasAccount = await conn.query('SELECT * FROM PAYMENT_ACCOUNT WHERE payment_portal_account =? AND user_username =?', [ accountInfo.payment_portal_account, accountInfo.username ]);
+        if (hasAccount.length > 0) {
+            throw new Error(`El usuario ${accountInfo.username} ya tiene registrada la cuenta ${accountInfo.payment_portal_account}`);
+        }
+
+        const account = await conn.query('INSERT INTO PAYMENT_ACCOUNT (payment_portal_account, user_username) VALUES (?, ?)', [ accountInfo.payment_portal_account, accountInfo.username ]);
+        return account;
     } catch (error) {
         throw error;
     }    
