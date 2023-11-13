@@ -18,11 +18,15 @@ const ReportProductsIntervalTime = (props) => {
     ];
 
     const handleStartDateChange = (date) => {
-        setStartDate(date);
+        if (!isNaN(date.getTime())) {
+            setStartDate(date);
+        }
     };
 
     const handleEndDateChange = (date) => {
-        setEndDate(date);
+        if (!isNaN(date.getTime())) {
+            setEndDate(date);
+        }
     };
 
     const handleRequest = async () => {

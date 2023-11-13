@@ -4,7 +4,7 @@ import { Container, FormControl, InputLabel, TextField } from '@mui/material';
 
 const ReportProductsName = (props) => {
     const [usersData, setUsersData] = useState([]);
-    const [name, setName] = useState('a')
+    const [name, setName] = useState('')
     const title = 'Productos por Nombre'
 
     useEffect(() => {
@@ -41,9 +41,7 @@ const ReportProductsName = (props) => {
     return (
         <Container sx={{ padding: 10 }} >
             <FormControl fullWidth margin="dense">
-            <InputLabel>Escribe el nombre</InputLabel>
-            <br />
-            <TextField value={name} onChange={handleChange} name='name' />
+            <TextField placeholder='Escribe el nombre' value={name} onChange={handleChange} name='name' />
             </FormControl>
             <ReportStructure title={title} columns={columns} usersData={usersData} />
         </Container>
