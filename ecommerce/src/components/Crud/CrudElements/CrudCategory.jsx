@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { TextField, Container, IconButton, Box, Alert, AlertTitle} from '@mui/material';
-import { Delete, Save, Search } from '@mui/icons-material';
-import API_URL from '../../../config/paths';
+import { Save, Search } from '@mui/icons-material';
+import UpdateIcon from '@mui/icons-material/Update';
 
 const CrudCategory = (props) => {  
   const alert = props.alert;
@@ -20,25 +20,27 @@ const CrudCategory = (props) => {
     props.handleSave(process.env.REACT_APP_API_URL + '/api/createCategory',categoryData)
   };
 
-  const handleSearch = async () => {
-    console.log('Buscar')    
-    const response = await props.handleSearch(process.env.REACT_APP_API_URL + '/api/searchCategory?categoryName',categoryData.category_name)
-    if (response) {
-      setCategoryData(response)
+  const handleUpdate = async () => {
+    console.log('Update')    
+    const updateData = {
+      category_name: categoryData.category_name,
+      filter: 'description',
+      new_value: categoryData.description
     }
+     await props.handleUpdate(process.env.REACT_APP_API_URL + '/api/updateCategory',updateData)
   };
 
-  const handleDelete = () => {
-    console.log('Eliminar')
-    const response = props.handleDelete(process.env.REACT_APP_API_URL + '/api/deleteUser?username',categoryData.category_name)
-    if (response) {
-      // Limpia los datos de usuario
-      setCategoryData({
-        category_name: '',
-        description: '',
-      });
-    }
-  };
+  // const handleDelete = () => {
+  //   console.log('Eliminar')
+  //   const response = props.handleDelete(process.env.REACT_APP_API_URL + '/api/deleteUser?username',categoryData.category_name)
+  //   if (response) {
+  //     // Limpia los datos de usuario
+  //     setCategoryData({
+  //       category_name: '',
+  //       description: '',
+  //     });
+  //   }
+  // };
 
   return (
     <div>
@@ -63,17 +65,13 @@ const CrudCategory = (props) => {
           <TextField name="category_name" label="Nombre" value={categoryData.category_name} onChange={handleChange} margin="dense" />
           <TextField name="description" label="Descripcion" value={categoryData.description} onChange={handleChange} margin="dense"/>
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-            <IconButton color='secondary' onClick={handleSearch}>
-              <Search/>
-              Buscar
+            <IconButton color='secondary' onClick={handleUpdate}>
+              <UpdateIcon/>
+              Actualizar
             </IconButton>
             <IconButton color='secondary' onClick={handleSave}>
               <Save/>
               Guardar
-            </IconButton>
-            <IconButton color='Error' onClick={handleDelete}>
-              <Delete/>
-              Eliminar
             </IconButton>
           </Box>
         </Box>
