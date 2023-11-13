@@ -144,3 +144,17 @@ export const addPaymentPortalAccount = async (req, res) => {
     }
 
 }
+
+export const getPaymentPortalAccountsByUsername = async (req, res) => {
+    const username = req.params.username;
+    try {
+        const paymentAccountsList = await dbUserManager.getPaymentPortalAccountsByUsername(username);
+        res.json(paymentAccountsList);
+    } catch (error) {
+        console.error(error);
+        res.json({
+            message: "Ocurrió un error al consultar las cuentas",
+            message_description: error.message
+        });
+    }   
+}

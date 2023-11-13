@@ -175,6 +175,18 @@ export async function addPaymentPortalAccount(accountInfo) {
     }    
 }
 
+export async function getPaymentPortalAccountsByUsername(username) {
+    const conn = await db.getConnection();
+    try {
+        const paymentAccountsList = await conn.query('SELECT payment_portal_account FROM PAYMENT_ACCOUNT WHERE user_username=?', [ username ]);
+        return paymentAccountsList;
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
 export async function hashPassword(password) {
     try {
         const salt = await bcrypt.genSalt(saltRounds);

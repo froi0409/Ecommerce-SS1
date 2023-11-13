@@ -7,6 +7,7 @@ const router = Router();
 router.get('/getAllUsers', UsersController.getAllUsers);
 router.get('/getUserByUsername/:username', UsersController.getUserByUsername);
 router.get('/getAddressesByUsername/:username', UsersController.getAddressByUsername);
+router.get('/getPaymentPortalAccountsByUsername/:username', UsersController.getPaymentPortalAccountsByUsername);
 
 router.post('/login', LoginController.login);
 router.post('/createUser', UsersController.createUser);
