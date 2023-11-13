@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReportStructure from '../ReportStructure/ReportStructure';
-import { Button, Container, FormControl, InputLabel, TextField } from '@mui/material';
+import { Box, Button, Container, FormControl, InputLabel, TextField } from '@mui/material';
 
 const ReportProductsIntervalTime = (props) => {
     const [usersData, setUsersData] = useState([]);
@@ -46,18 +46,16 @@ const ReportProductsIntervalTime = (props) => {
 
     return (
         <Container sx={{ padding: 10 }} >
+                <FormControl fullWidth margin="dense">
+                    <label>Fecha de inicio</label>
+                    <TextField
+                        type="date"
+                        value={startDate.toISOString().split('T')[0]}
+                        onChange={(e) => handleStartDateChange(new Date(e.target.value))}
+                    />
+                </FormControl>
             <FormControl fullWidth margin="dense">
-                <InputLabel>Fecha de inicio</InputLabel>
-                <br />
-                <TextField
-                    type="date"
-                    value={startDate.toISOString().split('T')[0]}
-                    onChange={(e) => handleStartDateChange(new Date(e.target.value))}
-                />
-            </FormControl>
-            <FormControl fullWidth margin="dense">
-                <InputLabel>Fecha de fin</InputLabel>
-                <br />
+                <label>Fecha de fin</label>
                 <TextField
                     type="date"
                     value={endDate.toISOString().split('T')[0]}
