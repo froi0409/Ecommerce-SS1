@@ -234,7 +234,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
                       ))}
                     </Select>
                     <br/>
-                    <TextField sx={{marginRight:2}} id="payment_portal_password" label="Contrasena Portal de Pagos" variant="filled" margin="dense" value={paymentPortalPassword} onChange={(e) => setPaymentPortalPassword(e.target.value)} type="password"/>                    
+                    <TextField sx={{marginRight:2}} id="payment_portal_password" label="Contrasena Portal de Pagos" variant="filled" margin="dense" value={paymentPortalPassword} onChange={(e) => setPaymentPortalPassword(e.target.value)} type="password" inputProps={{ maxLength: 10 }}/>                    
                 </div>
             ) : (
                 <div>
