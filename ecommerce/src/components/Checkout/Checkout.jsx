@@ -10,7 +10,10 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
     const [alert, setAlert] = useState({ open: false, severity: 'success', title: '', message: '' });
     const {userData } = useAuth();  
     const [newAddress, setNewAddress] = useState('');  
-    const [paymentPortalAccount, setPaymentPortalAccount] = useState('');
+
+    const [selectedUserPayment, setSelectedUserPayment] = useState();
+    const [paymentPortalAccount, setPaymentPortalAccount] = useState(['1','2','3']);
+
     const [paymentPortalPassword, setPaymentPortalPassword] = useState('');
     const getTotalPrice = () => {
         const productValues = Object.values(cart);
@@ -28,6 +31,10 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
       setSelectedOption(event.target.value);
     };
 
+    const handleOptionChangeUserPayment = (event) => {
+      setSelectedUserPayment(event.target.value);
+    };
+
     const changeAlert = (data) => {
       setAlert(data)
     }
@@ -39,6 +46,16 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
         const response = await axios.get(ruta);
         if (response)
           setAddresses(response.data);
+        }
+    };
+
+    const handleSearchUserPayments = async () => {
+      console.log('Buscar Usuarios de portal de pagos')    
+      if(userData != null){
+        const ruta = process.env.REACT_APP_API_URL + '/api/getPaymentsUsersByUsername/' + userData.user
+        const response = await axios.get(ruta);
+        if (response)
+          setPaymentPortalAccount(response.data);
         }
     };
 
@@ -93,7 +110,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
       const valNewPayment = {
         username: userData.user,
         products_detail: cartArray, 
-        payment_portal_account: paymentPortalAccount, 
+        payment_portal_account: selectedUserPayment, 
         payment_portal_password: paymentPortalPassword, 
         address: selectedOption
       };
@@ -128,6 +145,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
       const fetchData = async () => {
         try {     
           handleSearchAddress();
+          //handleSearchUserPayments();
         } catch (error) {
           console.error('Error al obtener datos de la API', error);
         }
@@ -187,7 +205,21 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
                     <br/>
                     <br/>
                     <Typography variant='h5'> Informacion de la plataforma de pagos</Typography>
-                    <TextField sx={{marginRight:2}} id="payment_portal_account" label="Usuario Portal de Pagos" variant="filled" margin="dense" value={paymentPortalAccount} onChange={(e) => setPaymentPortalAccount(e.target.value)}/>
+                    <InputLabel id="combo-box2-label">Selecciona usuario de Portal de Pagos</InputLabel>
+                    <Select                      
+                      id="payment_portal_account"
+                      value={selectedUserPayment}
+                      onChange={handleOptionChangeUserPayment}
+                      label="Selecciona usuario de Portal de Pagos"
+                      sx={{width:400}}
+                    >                      
+                      {paymentPortalAccount.map((item, index) => (
+                        <MenuItem key={index} value={item}>
+                          {item}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <br/>
                     <TextField sx={{marginRight:2}} id="payment_portal_password" label="Contrasena Portal de Pagos" variant="filled" margin="dense" value={paymentPortalPassword} onChange={(e) => setPaymentPortalPassword(e.target.value)} type="password"/>                    
                 </div>
             ) : (

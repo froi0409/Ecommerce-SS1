@@ -34,9 +34,11 @@ const Products = ({ addToCart, getQuantityInCart }) => {
         setFiltro(event.target.value);
     };
 
-    const productosFiltrados = productos.filter((producto) =>
+    const productosFiltrados = productos && productos.length > 0
+    ? productos.filter((producto) =>
         producto.product_name.toLowerCase().includes(filtro.toLowerCase())
-    );
+      )
+    : [];
     return (
         <main className={classes.content}>
             <div className={classes.toolbar} />
