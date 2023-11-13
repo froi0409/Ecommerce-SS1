@@ -23,7 +23,7 @@ export async function getProductsDB() {
 export async function getProductsByCategory(category) {
     const conn = await db.getConnection();
     try {
-        const productList = await conn.query('SELECT p.*,s.supplier_name FROM PRODUCT AS p INNER JOIN PRODUCT_CATEGORY AS pc ON p.product_id=pc.product_id INNER JOIN SUPPLIER AS s ON p.supplier_id=s.supplier_id WHERE pc.category_name=? GROUP BY product_id', [ category ]);
+        const productList = await conn.query('SELECT p.*,s.supplier_name FROM PRODUCT AS p INNER JOIN PRODUCT_CATEGORY AS pc ON p.product_id=pc.product_id INNER JOIN SUPPLIER AS s ON p.supplier_id=s.supplier_id WHERE pc.category_name=? AND p.status=? GROUP BY product_id', [ category, 1 ]);
         
         if (productList.length === 0) return false; 
         

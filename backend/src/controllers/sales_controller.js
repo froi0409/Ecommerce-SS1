@@ -7,4 +7,17 @@ export const makeSale = async (req, res) => {
         payment_portal_account: req.body.payment_portal_account,
         payment_portal_password: req.body.payment_portal_password,
     }
+
+    try {
+        const sale = await dbSalesManager.makeSale(saleInfo);
+        res.json({
+            message: sale
+        });
+    } catch (error) {
+        console.error(error);
+        res.json({
+            meesage: 'Error al realizar la compra',
+            message_description: error.message
+        });
+    }
 }
