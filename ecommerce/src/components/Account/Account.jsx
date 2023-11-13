@@ -11,8 +11,9 @@ const Account = () => {
     const itemsCards = [
         { id: 1, name: 'Ordenes', description: 'Record de todas las compras realizadas', image: '/static/images/cards/orders.jpg', link: '/account/orders', client: true },
         { id: 2, name: 'Seguridad', description: 'Edita nombre, usuario, contrasena', image: '/static/images/cards/orders.jpg', link: '/account/security', client: true },
+        { id: 3, name: 'Reportes', description: 'Muestra los respectivos reportes', image: '/static/images/cards/orders.jpg', link: '/account/reports', client: false },
         // { id: 3, name: 'Direcciones', description: 'Administra todas tus direcciones', image: '/static/images/cards/orders.jpg', link: '/account/orders', client: true },
-        { id: 3, name: 'Ajustes', description: 'Agrega, elimina y modifica', image: '/static/images/cards/orders.jpg', link: '/account/crud-menu', client: false },
+        { id: 4, name: 'Ajustes', description: 'Agrega, elimina y modifica', image: '/static/images/cards/orders.jpg', link: '/account/crud-menu', client: false },
     ]
 
     return (

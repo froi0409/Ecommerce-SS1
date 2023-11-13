@@ -15,12 +15,12 @@ const AccountItem = (props) => {
     return (
         <Card sx={{ maxWidth: '21.7rem', backgroundColor: "#9EC5FE"}}>
         <CardActionArea onClick={actionHandler} sx={{ display: 'flex', p: "0px 0.5rem"}}>
-          <CardMedia
+          {/* <CardMedia
             component="img"
             sx={{ width: "9.81rem", height: "5.81rem", background: "#FFE9E9" }}
             image={dataItem.image}
             alt={dataItem.name}
-          />
+          /> */}
           <Box  sx={{ display: 'flex', flexDirection: 'column' }} >
             <CardContent  sx={{ flex: '1 0 auto' }}>
               <Typography gutterBottom variant="h5" component="div">
