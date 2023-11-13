@@ -1,4 +1,5 @@
 import * as db from '../../configs/database.config.js';
+import { validateAccount } from '../other/paymentPortalManagement.js';
 import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
@@ -35,11 +36,6 @@ export async function createUser (userInfo) {
     const hashedPassword = await hashPassword(userInfo.password);
     userInfo.password = hashedPassword;
 
-    // validate payment portal account
-    if (!validateAccount()) {
-        throw new Error('No fue posible validar la cuenta en el por la de pagos, verifica si ingresaste los datos correctamente');
-    }
-
     // valdate account is unique
     const uniqueUser = await isUnique(userInfo.username);
     if (!uniqueUser) {
@@ -62,10 +58,6 @@ export async function createUser (userInfo) {
     } finally {
         if (conn) conn.end();
     }
-}
-
-function validateAccount () {
-    return true;
 }
 
 async function isUnique (username) {
@@ -160,6 +152,15 @@ export async function getAddressByUsername(username) {
 
 export async function deleteUser () {
 
+}
+
+export async function addPaymentPortalAccount(accountInfo) { 
+    try {
+        const isValidAccount = await validateAccount(accountInfo.payment_portal_account, accountInfo.payment_portal_password);
+        return isValidAccount;
+    } catch (error) {
+        throw error;
+    }    
 }
 
 export async function hashPassword(password) {
