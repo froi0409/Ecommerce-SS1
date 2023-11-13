@@ -135,6 +135,29 @@ export async function updatePassword(username, oldPassword, newPassword) {
     }
 }
 
+export async function addAddress(username, address) {
+    const conn = await db.getConnection();
+    try {
+        const result = await conn.query('INSERT INTO ADDRESS (address, user_username) VALUES (?,?)', [ address, username ]);
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.end();
+    }
+}
+
+export async function getAddressByUsername(username) {
+    const conn = await db.getConnection();
+    try {
+        const addressesList = await conn.query('SELECT address FROM ADDRESS WHERE user_username = ?', [ username ]);
+        return addressesList;
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.end();
+    }
+}
 
 export async function deleteUser () {
 
@@ -150,7 +173,7 @@ export async function hashPassword(password) {
     }
 }
 
-async function comparePasswords(inputPassword, hashedPassword) {
+export async function comparePasswords(inputPassword, hashedPassword) {
     try {
         const match = await bcrypt.compare(inputPassword, hashedPassword);
         return match;
