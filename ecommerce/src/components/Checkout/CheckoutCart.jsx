@@ -2,7 +2,7 @@ import { Payments } from '@mui/icons-material'
 import { Box, Typography, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import React from 'react'
 
-const CartCheckout = ({cart,getTotalPrice,getTotalQuantityInCart}) => {
+const CartCheckout = ({cart,getTotalPrice,getTotalQuantityInCart,handleSavePayment}) => {
     const [paymentMethod, setPaymentMethod] = React.useState('credit');
 
   const handlePaymentChange = (event) => {
@@ -25,7 +25,7 @@ const CartCheckout = ({cart,getTotalPrice,getTotalQuantityInCart}) => {
         <Typography variant='h6'> Cantidad de Productos: {getTotalQuantityInCart()} </Typography>
         <Typography variant='h6'> Total: Q.{getTotalPrice()}</Typography>        
         <br/>
-        <Button variant="contained" startIcon={<Payments/>} >Pagar Todo</Button>
+        <Button variant="contained" startIcon={<Payments/>} onClick={handleSavePayment}>Pagar Todo</Button>
     </Box>
   )
 }

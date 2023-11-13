@@ -10,6 +10,8 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
     const [alert, setAlert] = useState({ open: false, severity: 'success', title: '', message: '' });
     const {userData } = useAuth();  
     const [newAddress, setNewAddress] = useState('');  
+    const [paymentPortalAccount, setPaymentPortalAccount] = useState('');
+    const [paymentPortalPassword, setPaymentPortalPassword] = useState('');
     const getTotalPrice = () => {
         const productValues = Object.values(cart);
         const totalPrice = productValues.reduce(
@@ -32,13 +34,13 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
 
     const handleSearchAddress = async () => {
       console.log('Buscar Direcciones')    
-      const ruta = process.env.REACT_APP_API_URL + '/api/getAddressesByUsername/' + userData.user
-      const response = await axios.get(ruta);
-      if (response)
-        setAddresses(response.data);
+      if(userData != null){
+        const ruta = process.env.REACT_APP_API_URL + '/api/getAddressesByUsername/' + userData.user
+        const response = await axios.get(ruta);
+        if (response)
+          setAddresses(response.data);
+        }
     };
-
-
 
     const handleSave = async (url, dataJson) => {
       let message = ''
@@ -80,44 +82,24 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
       }
     };
 
-    const handlePay = async (url, dataJson) => {
-      let message = ''
-      try {
-        // Envía los datos al servidor
-        const response = await axios.post(url, dataJson);
-  
-        // Procesa la respuesta del servidor
-        // console.log('Respuesta del servidor:', response.data);
-        message = response.data.message;
-  
-        // Configura la alerta de éxito
-        setAlert({
-          open: true,
-          severity: 'success',
-          title: 'Éxito',
-          message: message,
-        });
-  
-        // Cierra la alerta después de 3 segundos
-        setTimeout(() => {
-          setAlert({ ...alert, open: false });
-        }, 3000);
-      } catch (error) {
-        console.error('Error al guardar', error);
-  
-        // Configura la alerta de error
-        setAlert({
-          open: true,
-          severity: 'error',
-          title: 'Error',
-          message: error.message,
-        });
-  
-        // Cierra la alerta después de 3 segundos
-        setTimeout(() => {
-          setAlert({ ...alert, open: false });
-        }, 3000);
-      }
+
+    const handleSavePayment = () => {
+      //Haciendo el arreglo pa mandar      
+      const cartArray = Object.entries(cart).map(([productId, cartItem]) => ({
+        id: productId,
+        quantity: cartItem.quantity,
+      }));      
+
+      const valNewPayment = {
+        username: userData.user,
+        products_detail: cartArray, 
+        payment_portal_account: paymentPortalAccount, 
+        payment_portal_password: paymentPortalPassword, 
+        address: selectedOption
+      };
+      //handleSave(process.env.REACT_APP_API_URL + '/api/makeSale', valNewAddress);
+      console.log("Valores del pago");
+      console.log(valNewPayment);
     };
 
     const handleSaveAddress = () => {
@@ -125,8 +107,6 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
         username: userData.user,
         address: newAddress
       };
-      console.log('GuardarDireccion: ');
-      console.log(valNewAddress);
       handleSave(process.env.REACT_APP_API_URL + '/api/addAddress', valNewAddress);
       handleSearchAddress();
     };
@@ -203,8 +183,8 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
                     <br/>
                     <br/>
                     <Typography variant='h5'> Informacion de la plataforma de pagos</Typography>
-                    <TextField sx={{marginRight:2}} id="payment_portal_account" label="Usuario Portal de Pagos" variant="filled" margin="dense"/>
-                    <TextField sx={{marginRight:2}} id="payment_portal_password" label="Contrasena Portal de Pagos" variant="filled" margin="dense"/>                    
+                    <TextField sx={{marginRight:2}} id="payment_portal_account" label="Usuario Portal de Pagos" variant="filled" margin="dense" value={paymentPortalAccount} onChange={(e) => setPaymentPortalAccount(e.target.value)}/>
+                    <TextField sx={{marginRight:2}} id="payment_portal_password" label="Contrasena Portal de Pagos" variant="filled" margin="dense" value={paymentPortalPassword} onChange={(e) => setPaymentPortalPassword(e.target.value)} type="password"/>                    
                 </div>
             ) : (
                 <div>
@@ -224,7 +204,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
         <Box sx={{
             marginTop: 10,
         }}>
-            <CheckoutCart cart={cart} getTotalPrice={getTotalPrice} getTotalQuantityInCart={getTotalQuantityInCart}/>
+            <CheckoutCart cart={cart} getTotalPrice={getTotalPrice} getTotalQuantityInCart={getTotalQuantityInCart} handleSavePayment={handleSavePayment}/>
         </Box>
         
     </div>
