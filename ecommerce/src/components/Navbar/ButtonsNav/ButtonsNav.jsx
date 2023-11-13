@@ -40,13 +40,13 @@ export default function ButtonsNav({ cantidadProductos }) {
   return (
     <Fragment>
     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-      {isAuthenticated && <BottomNavigationAction
+      {/* {isAuthenticated && <BottomNavigationAction
         label="Favoritos"
         value="favorites"
         icon={<FavoriteIcon />}
         component={Link}
         to="/favorites" // Ruta que quieres enlazar
-      />}
+      />} */}
       <BottomNavigationAction
         label="Productos"
         value="products"
