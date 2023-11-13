@@ -1,15 +1,22 @@
+import { config } from 'dotenv'
 import axios from 'axios';
 
 export async function validateAccount(account, associationToken) {
     try {
-        // const postData = {
-        //     account: account,
-        //     associationToken: associationToken
-        // }
-        // const response = await axios.post('https://mongolia-professor-ts-completely.trycloudflare.com/validateAccount', postData);
-        // const data = response.data;
-        // console.log(`Validación de cuenta: ${data}`);
-        return true;
+        const postData = {
+            account: account,
+            associationToken: associationToken
+        }
+        const response = await axios.post(`${process.env.PAYMENT_PORTAL_URL}/validateAccount`, postData)
+        const data = response.data.status;
+        console.log(`Validación de cuenta: ${data}`);
+        if (data === undefined) {
+            throw new Error('Error de Servidor de Portal de Pagos');
+        } else if (data === 100) {
+            return true;
+        } else {
+            return false;
+        }
     } catch (err) {
         throw err;
     }
