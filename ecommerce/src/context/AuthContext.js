@@ -1,5 +1,5 @@
 // AuthContext.js
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
@@ -15,7 +15,11 @@ export const AuthProvider = ({ children }) => {
     return null;
   });
 
-  const [cart, setCart] = useState({}); 
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || {});
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const login = (token) => {
     // Lógica de inicio de sesión
@@ -26,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     //   console.log('Usuario:', user);
     //   console.log('Nombre:', name);
     //   console.log('Tipo:', type);
-    
+
     //   // Puedes almacenar esta información en el estado o utilizarla según tus necesidades
     // } else {
     //   console.log('Error al decodificar el token');
@@ -45,13 +49,11 @@ export const AuthProvider = ({ children }) => {
 
   const addToCart = (productId, price) => {
     setCart((prevCart) => {
-      console.log("Sumando uno")
       const updatedCart = { ...prevCart };
-      
-      if (updatedCart[productId]) {        
+
+      if (updatedCart[productId]) {
         updatedCart[productId].quantity += 1;
-        
-      } else {        
+      } else {
         updatedCart[productId] = {
           quantity: 1,
           totalPrice: price,
@@ -60,14 +62,14 @@ export const AuthProvider = ({ children }) => {
       return updatedCart;
     });
   };
-  
+
   const removeFromCart = (productId) => {
     setCart((prevCart) => {
       const updatedCart = { ...prevCart };
-      if (updatedCart[productId]) {        
+      if (updatedCart[productId]) {
         if (updatedCart[productId].quantity > 1) {
-          updatedCart[productId].quantity -= 1;          
-        } else {          
+          updatedCart[productId].quantity -= 1;
+        } else {
           delete updatedCart[productId];
         }
       }
@@ -89,7 +91,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated,userData, login, logout,cart, setCart,addToCart,removeFromCart,getTotalQuantityInCart,getQuantityInCart }}>
+    <AuthContext.Provider value={{ isAuthenticated, userData, login, logout, cart, setCart, addToCart, removeFromCart, getTotalQuantityInCart, getQuantityInCart }}>
       {children}
     </AuthContext.Provider>
   );
