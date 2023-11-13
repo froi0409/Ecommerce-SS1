@@ -15,6 +15,8 @@ export const AuthProvider = ({ children }) => {
     return null;
   });
 
+  const [cart, setCart] = useState({}); 
+
   const login = (token) => {
     // Lógica de inicio de sesión
 
@@ -41,8 +43,53 @@ export const AuthProvider = ({ children }) => {
     setUserData(null);
   };
 
+  const addToCart = (productId, price) => {
+    setCart((prevCart) => {
+      console.log("Sumando uno")
+      const updatedCart = { ...prevCart };
+      
+      if (updatedCart[productId]) {        
+        updatedCart[productId].quantity += 1;
+        
+      } else {        
+        updatedCart[productId] = {
+          quantity: 1,
+          totalPrice: price,
+        };
+      }
+      return updatedCart;
+    });
+  };
+  
+  const removeFromCart = (productId) => {
+    setCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      if (updatedCart[productId]) {        
+        if (updatedCart[productId].quantity > 1) {
+          updatedCart[productId].quantity -= 1;          
+        } else {          
+          delete updatedCart[productId];
+        }
+      }
+      return updatedCart;
+    });
+  };
+
+  const getTotalQuantityInCart = () => {
+    const productValues = Object.values(cart);
+    const totalQuantity = productValues.reduce(
+      (total, product) => total + product.quantity,
+      0
+    );
+    return totalQuantity;
+  };
+
+  const getQuantityInCart = (productId) => {
+    return cart[productId] ? cart[productId].quantity : 0;
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated,userData, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated,userData, login, logout,cart, setCart,addToCart,removeFromCart,getTotalQuantityInCart,getQuantityInCart }}>
       {children}
     </AuthContext.Provider>
   );

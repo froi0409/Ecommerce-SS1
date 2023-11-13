@@ -2,8 +2,8 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom';
 import { Products, Navbar, Login, Detail, Chat, Cart, Crud, Accountroute,Checkout} from './components';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
-import { AuthProvider } from './context/AuthContext';
+//import { useState } from 'react';
+import { useAuth } from './context/AuthContext';
 
 const theme = createTheme({
   palette: {
@@ -18,8 +18,11 @@ const theme = createTheme({
 
 
 const App = () => {
-  const [cart, setCart] = useState({})
+  
+  const {cart,addToCart,removeFromCart,getTotalQuantityInCart,getQuantityInCart} = useAuth();
 
+  //const [cart, setCart] = useState({})
+  /*
   const addToCart = (productId, price) => {
     setCart((prevCart) => {
       console.log("Sumando uno")
@@ -64,9 +67,9 @@ const App = () => {
   const getQuantityInCart = (productId) => {
     return cart[productId] ? cart[productId].quantity : 0;
   };
-
+  */
   return (
-    <AuthProvider>
+    
         <ThemeProvider theme={theme}>
           <Navbar prodQuantity={getTotalQuantityInCart()}/>
             <Routes>
@@ -81,7 +84,7 @@ const App = () => {
             <Route path="/checkout" element={<Checkout cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} getTotalQuantityInCart={getTotalQuantityInCart} />} />
         </Routes>
         </ThemeProvider>
-    </AuthProvider>
+    
   )
 }
 
