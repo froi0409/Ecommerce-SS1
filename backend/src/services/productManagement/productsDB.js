@@ -90,6 +90,10 @@ export async function insertProduct(product) {
     const conn = await db.getConnection();
     try {
         
+        // get actual date
+        const date = new Date();
+        const actualDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
         // get supplier id
         const supplierId = await conn.query('SELECT supplier_id FROM SUPPLIER WHERE supplier_name=?', [product.supplier_name]);
         if (supplierId.length === 0) {
@@ -98,7 +102,7 @@ export async function insertProduct(product) {
         product.supplier_id = supplierId[0].supplier_id;
 
         // insert product with supplier_id
-        const result = await conn.query('INSERT INTO PRODUCT (product_name,unit_price,stock,supplier_id,description) VALUES (?,?,?,?,?)', [product.product_name, product.unit_price, product.stock, product.supplier_id, product.description]);
+        const result = await conn.query('INSERT INTO PRODUCT (product_name,unit_price,stock,supplier_id,description,date) VALUES (?,?,?,?,?,?)', [product.product_name, product.unit_price, product.stock, product.supplier_id, product.description, actualDate]);
         const productId = result.insertId;
 
         // insert product_categories

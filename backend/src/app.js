@@ -8,6 +8,7 @@ import { UsersRoutes } from './routes/users.routes.js';
 import { SupplierRoutes } from './routes/suppliers.routes.js';
 import { CategoriesRoutes } from './routes/categories.routes.js';
 import { SalesRoutes } from './routes/sales.routes.js';
+import { ReportsRoutes } from './routes/reports.routes.js';
 
 db.connectDB();
 
@@ -31,6 +32,7 @@ app.use('/api', UsersRoutes);
 app.use('/api', SupplierRoutes);
 app.use('/api', CategoriesRoutes);
 app.use('/api', SalesRoutes); 
+app.use('/api', ReportsRoutes);
 
 export { app }
 
