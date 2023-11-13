@@ -18,7 +18,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
           (total, product) => total + (product.totalPrice * product.quantity),
           0
         );
-        return totalPrice;
+        return totalPrice; 
       }; 
 
     const [selectedOption, setSelectedOption] = useState('Nueva Direccion');
@@ -102,13 +102,17 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
       console.log(valNewPayment);
     };
 
-    const handleSaveAddress = () => {
+    const handleSaveAddress = async () => {
       const valNewAddress = {
         username: userData.user,
         address: newAddress
       };
-      handleSave(process.env.REACT_APP_API_URL + '/api/addAddress', valNewAddress);
-      handleSearchAddress();
+      try {
+        await handleSave(process.env.REACT_APP_API_URL + '/api/addAddress', valNewAddress);
+        await handleSearchAddress();
+      } catch (error) {
+        console.error('Error al guardar o buscar direcciones', error);
+      }
     };
 
     const handleTextFieldChange = (event) => {      
