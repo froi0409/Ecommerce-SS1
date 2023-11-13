@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
-import { Products, Navbar, Login, Detail, Chat, Cart, Crud, Accountroute,Checkout} from './components';
+import { Products, Navbar, Login, Detail, Chat, Cart, Crud, Accountroute,Checkout, CreateAccount} from './components';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 //import { useState } from 'react';
 import { useAuth } from './context/AuthContext';
@@ -76,6 +76,7 @@ const App = () => {
             <Route path="/" element={<Products addToCart={addToCart} getQuantityInCart={getQuantityInCart}/>} />
             <Route path="/products" element={<Products addToCart={addToCart} getQuantityInCart={getQuantityInCart}/>} />
             <Route path="/login" element={<Login />} />
+            <Route path="/create-user" element={<CreateAccount />} />
             <Route path="/detail" element={<Detail removeFromCart={removeFromCart} addToCart={addToCart} getQuantityInCart={getQuantityInCart}/>} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} getTotalQuantityInCart={getTotalQuantityInCart} /> } />
