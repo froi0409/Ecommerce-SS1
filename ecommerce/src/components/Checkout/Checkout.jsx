@@ -115,7 +115,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
         payment_portal_password: paymentPortalPassword, 
         address: selectedOption
       };
-      //handleSave(process.env.REACT_APP_API_URL + '/api/makeSale', valNewAddress);
+      handleSave(process.env.REACT_APP_API_URL + '/api/makeSale', valNewPayment);
       console.log("Valores del pago");
       console.log(valNewPayment);
       clearCart();
