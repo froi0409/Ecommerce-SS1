@@ -1,17 +1,34 @@
-import React, { useState } from 'react'
-import { TextField, Container, IconButton, Box, Select, MenuItem, InputLabel, FormControl, Alert, AlertTitle, Button} from '@mui/material';
-import { Delete, Save, Search,CloudUpload } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react'
+import { TextField, Container, IconButton, Box, Select, MenuItem, InputLabel, FormControl, Alert, AlertTitle, Button } from '@mui/material';
+import { Delete, Save, CloudUpload } from '@mui/icons-material';
+import BlockIcon from '@mui/icons-material/Block';
+import axios from 'axios';
 
-const CrudProduct = (props) => {  
+const CrudProduct = (props) => {
   const alert = props.alert;
+  const [suppliers, setSuppliers] = useState([]);
   const [userData, setUserData] = useState({
     product_id: '',
     product_name: '',
     unit_price: '',
     stock: '',
-    supplier_id: '',
+    supplier_name: '',
     description: '',
   });
+
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const response = await axios.get(process.env.REACT_APP_API_URL + '/api/getAllSuppliers');
+        setSuppliers(response.data);
+      } catch (error) {
+        console.error('Error fetching suppliers:', error);
+      }
+    };
+
+    fetchSuppliers();
+  }, []); // El segundo argumento [] significa que este efecto se ejecutará solo una vez al montar el componente
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,14 +38,15 @@ const CrudProduct = (props) => {
   const handleSave = () => {
     console.log('Guardar')
     props.handleSave(process.env.REACT_APP_API_URL + '/api/insertProduct',
-    userData)
+      userData)
   };
 
-  const handleSearch = async () => {
-    console.log('Buscar')
-    const response = await props.handleSearch(
-      process.env.REACT_APP_API_URL + '/api/searchProduct?product_name',
-      userData.product_name)
+  //deshabilitar
+  const handleUpdate = async () => {
+    console.log('deshabilitar')
+    const response = await props.handleUpdate(
+      process.env.REACT_APP_API_URL + '/api/disableProductById',
+      { product_id: userData.product_id })
     if (response) {
       setUserData(response)
     }
@@ -37,8 +55,8 @@ const CrudProduct = (props) => {
   const handleDelete = () => {
     console.log('Eliminar')
     const response = props.handleDelete(
-      process.env.REACT_APP_API_URL + '/api/removeProduct?product_id',
-      userData.username)
+      process.env.REACT_APP_API_URL + '/api/removeProduct',
+      { product_name: userData.product_name })
     if (response) {
       // Limpia los datos de usuario
       setUserData({
@@ -46,7 +64,7 @@ const CrudProduct = (props) => {
         product_name: '',
         unit_price: '',
         stock: '',
-        supplier_id: '',
+        supplier_name: '',
         description: '',
       });
     }
@@ -61,7 +79,7 @@ const CrudProduct = (props) => {
 
   return (
     <div>
-      <Container sx={{padding:12}} >
+      <Container sx={{ padding: 12 }} >
         <h1>Insersion de Producto</h1>
         {alert.open && <Alert
           open={alert.open}
@@ -71,31 +89,34 @@ const CrudProduct = (props) => {
           <AlertTitle>{alert.title}</AlertTitle>
           {alert.message}
         </Alert>}
-        <Box 
+        <Box
           sx={{
             display: 'flex',
-            flexDirection: 'column',    
-            backgroundColor: '#e3f2fd',   
-            borderRadius: '8px', 
+            flexDirection: 'column',
+            backgroundColor: '#e3f2fd',
+            borderRadius: '8px',
           }}
         >
           <TextField name="product_id" label="id" value={userData.product_id} onChange={handleChange} margin="dense" />
-          <TextField name="product_name" label="Nombre del producto" value={userData.product_name} onChange={handleChange} margin="dense"/>
-          <TextField name="unit_price" label="precio unitario" value={userData.unit_price} onChange={handleChange} margin="dense"/>
-          <TextField name="stock" label="stock" value={userData.stock} onChange={handleChange} margin="dense"/>
+          <TextField name="product_name" label="Nombre del producto" value={userData.product_name} onChange={handleChange} margin="dense" />
+          <TextField name="unit_price" label="precio unitario" value={userData.unit_price} onChange={handleChange} margin="dense" />
+          <TextField name="stock" label="stock" value={userData.stock} onChange={handleChange} margin="dense" />
           <FormControl fullWidth margin="dense">
-          <InputLabel>Proveedor</InputLabel>
+            <InputLabel>Proveedor</InputLabel>
             <Select
-              name="supplier_id"
-              value={userData.supplier_id}
+              name="supplier_name"
+              value={userData.supplier_name}
               onChange={handleChange}
             >
-              <MenuItem value="1"></MenuItem>
-              <MenuItem value="2"></MenuItem>
+              {suppliers.map((supplier) => (
+                <MenuItem key={supplier.supplier_id} value={supplier.supplier_name}>
+                  {supplier.supplier_name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
-          
-          <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense" multiline maxRows={4}/>  
+
+          <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense" multiline maxRows={4} />
           <Button
             component="label"
             variant="contained"
@@ -121,24 +142,24 @@ const CrudProduct = (props) => {
             </div>
           )}
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-            <IconButton color='secondary' onClick={handleSearch}>
-              <Search/>
-              Buscar
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <IconButton color='secondary' onClick={handleUpdate}>
+              <BlockIcon />
+              Deshabilitar
             </IconButton>
             <IconButton color='secondary' onClick={handleSave}>
-              <Save/>
+              <Save />
               Guardar
             </IconButton>
             <IconButton color='Error' onClick={handleDelete}>
-              <Delete/>
+              <Delete />
               Eliminar
             </IconButton>
           </Box>
         </Box>
-        
+
       </Container>
-        
+
     </div>
   )
 }

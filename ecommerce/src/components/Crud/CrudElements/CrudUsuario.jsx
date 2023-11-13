@@ -12,7 +12,7 @@ const CrudUsuario = (props) => {
     birth_date: '',
     user_type: '',
     payment_portal_account: '',
-  });  
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,16 +22,22 @@ const CrudUsuario = (props) => {
   const handleSave = () => {
     console.log('Guardar')
     props.handleSave(process.env.REACT_APP_API_URL + '/api/createUser',
-    userData)
+      userData)
   };
 
   const handleSearch = async () => {
-    console.log('Buscar')    
+    console.log('Buscar')
     const response = await props.handleSearch(
-      process.env.REACT_APP_API_URL + '/api/searchUser?username',
+      process.env.REACT_APP_API_URL + '/api/getUserByUsername',
       userData.username)
     if (response) {
-      setUserData(response)
+      // Convierte el formato de la fecha antes de establecer el estado
+      if (response.birth_date) {
+        const dateObject = new Date(response.birth_date);
+        const formattedDateString = dateObject.toISOString().split('T')[0];
+        response.birth_date = formattedDateString;
+      }
+      setUserData({...userData, ...response})
     }
   };
 
@@ -106,10 +112,6 @@ const CrudUsuario = (props) => {
             <IconButton color='secondary' onClick={handleSave}>
               <Save />
               Guardar
-            </IconButton>
-            <IconButton color='Error' onClick={handleDelete}>
-              <Delete />
-              Eliminar
             </IconButton>
           </Box>
         </Box>

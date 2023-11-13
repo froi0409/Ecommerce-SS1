@@ -74,12 +74,13 @@ const Crud = () => {
     let responses = null
     try {
       // Realiza la búsqueda por username en el servidor
-      const response = await axios.get(`${url}=${dataSearch}`);
+      const response = await axios.get(`${url}/${dataSearch}`);
 
       // Si se encontró el usuario, rellena la información
-      if (response.data.found) {
-        const foundUser = response.data.atributtes;
-        responses = foundUser
+      if (response.data) {
+        const foundUser = response.data;
+        console.log(foundUser[0])
+        responses = foundUser[0]
         setAlert({
           open: true,
           severity: 'success',
@@ -117,15 +118,16 @@ const Crud = () => {
     try {
 
       // Realiza la solicitud para eliminar en el servidor
-      const response = await axios.delete(`${url}=${dataDelete}`);
+      // const response = await axios.delete(`${url}=${dataDelete}`);
+      const response = await axios.delete(`${url}`, {data: dataDelete});
 
-      if (response.data.deleted) {
+      if (response.data.message) {
         // Si se eliminó con éxito, muestra una alerta de éxito
         setAlert({
           open: true,
           severity: 'success',
           title: 'Éxito',
-          message: 'eliminado con éxito',
+          message: response.data.message,
         });
         isDelete = true;
       } else {
@@ -134,7 +136,7 @@ const Crud = () => {
           open: true,
           severity: 'error',
           title: 'Error',
-          message: 'Ocurrió un error al eliminar',
+          message: response.data.message_description,
         });
       }
     } catch (error) {
@@ -155,15 +157,59 @@ const Crud = () => {
     }
   };
 
+
+  const handleUpdate = async (url, dataUpdate) => {
+    let isDelete = false;
+    try {
+
+      // Realiza la solicitud para eliminar en el servidor
+      const response = await axios.put(`${url}`, dataUpdate);
+
+      if (response.data.message) {
+        // Si se actualizo con éxito, muestra una alerta de éxito
+        setAlert({
+          open: true,
+          severity: 'success',
+          title: 'Éxito',
+          message: response.data.message,
+        });
+        isDelete = true;
+      } else {
+        // Si hubo un error al eliminar, muestra una alerta de error
+        setAlert({
+          open: true,
+          severity: 'error',
+          title: 'Error',
+          message: 'Ocurrió un error al Actualizar',
+        });
+      }
+    } catch (error) {
+      console.error('Error al eliminar', error);
+      // Si hubo un error al eliminar, muestra una alerta de error
+      setAlert({
+        open: true,
+        severity: 'error',
+        title: 'Error',
+        message: 'Ocurrió un error al actualizar',
+      });
+    } finally {
+      // Cierra la alerta después de 3 segundos
+      setTimeout(() => {
+        setAlert({ ...alert, open: false });
+      }, 3000);
+      return isDelete;
+    }
+  };
+
   return (
     <div>
       <ThemeProvider theme={theme}>
         {isAdmin && <Routes>
           <Route path="/" element={<CrudProducts />} />
-          <Route path="/crudproduct" element={<CrudProducts alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleSearch={handleSearch} handleDelete={handleDelete} />} />
+          <Route path="/crudproduct" element={<CrudProducts alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleUpdate={handleUpdate} handleDelete={handleDelete} />} />
           <Route path="/crudusuario" element={<CrudUsuario alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleSearch={handleSearch} handleDelete={handleDelete} />} />
-          <Route path="/crudsupplier" element={<CrudSupplier alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleSearch={handleSearch} handleDelete={handleDelete} />} />
-          <Route path="/crudcategory" element={<CrudCategory alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleSearch={handleSearch} handleDelete={handleDelete} />} />
+          <Route path="/crudsupplier" element={<CrudSupplier alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleUpdate={handleUpdate} handleDelete={handleDelete} />} />
+          <Route path="/crudcategory" element={<CrudCategory alert={alert} changeAlert={changeAlert} handleSave={handleSave} handleUpdate={handleUpdate} />} />
         </Routes>}
       </ThemeProvider>
     </div>

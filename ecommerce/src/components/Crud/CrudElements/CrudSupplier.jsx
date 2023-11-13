@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { TextField, Container, IconButton, Box, Alert, AlertTitle } from '@mui/material';
-import { Delete, Save, Search, Create } from '@mui/icons-material';
+import { Delete, Save, Search, Create, Update } from '@mui/icons-material';
 
 const CrudSupplier = (props) => {
   const alert = props.alert;
@@ -21,21 +21,26 @@ const CrudSupplier = (props) => {
       userData)
   };
 
-  const handleSearch = async () => {
-    console.log('Buscar')
-    const response = await props.handleSearch(
-      process.env.REACT_APP_API_URL + '/api/searchSupplier?supplier_name',
-      userData.supplier_name)
-    if (response) {
-      setUserData(response)
+  const handleUpdate = async () => {
+    console.log('update')
+    const updateData = {
+      supplier_name: userData.supplier_name,
+      filter: 'description',
+      new_value: userData.description
     }
+    const response = await props.handleUpdate(
+      process.env.REACT_APP_API_URL + '/api/updateSupplier',
+      updateData)
   };
 
   const handleDelete = () => {
     console.log('Eliminar')
+    const updateData = {
+      supplier_name: userData.supplier_name,
+    }
     const response = props.handleDelete(
-      process.env.REACT_APP_API_URL + '/api/deleteSupplier?supplier_id',
-      userData.supplier_id)
+      process.env.REACT_APP_API_URL + '/api/deleteSupplier',
+      updateData)
     if (response) {
       // Limpia los datos de usuario
       setUserData({
@@ -70,9 +75,9 @@ const CrudSupplier = (props) => {
           <TextField name="supplier_name" label="Nombre" value={userData.supplier_name} onChange={handleChange} margin="dense" />
           <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense" />
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <IconButton color='secondary' onClick={handleSearch}>
-              <Search />
-              Buscar
+            <IconButton color='secondary' onClick={handleUpdate}>
+              <Update />
+              Actualizar
             </IconButton>
             <IconButton color='secondary' onClick={handleSave}>
               <Save />
