@@ -12,7 +12,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
     const [newAddress, setNewAddress] = useState('');  
 
     const [selectedUserPayment, setSelectedUserPayment] = useState();
-    const [paymentPortalAccount, setPaymentPortalAccount] = useState(['1','2','3']);
+    const [paymentPortalAccount, setPaymentPortalAccount] = useState([]);
 
     const [paymentPortalPassword, setPaymentPortalPassword] = useState('');
     const getTotalPrice = () => {
@@ -40,7 +40,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
     }
 
     const handleSearchAddress = async () => {
-      console.log('Buscar Direcciones')    
+      //console.log('Buscar Direcciones')    
       if(userData != null){
         const ruta = process.env.REACT_APP_API_URL + '/api/getAddressesByUsername/' + userData.user
         const response = await axios.get(ruta);
@@ -50,12 +50,13 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
     };
 
     const handleSearchUserPayments = async () => {
-      console.log('Buscar Usuarios de portal de pagos')    
+      //console.log('Buscar Usuarios de portal de pagos');
       if(userData != null){
-        const ruta = process.env.REACT_APP_API_URL + '/api/getPaymentsUsersByUsername/' + userData.user
+        const ruta = process.env.REACT_APP_API_URL + '/api/getPaymentPortalAccountsByUsername/' + userData.user
         const response = await axios.get(ruta);
         if (response)
           setPaymentPortalAccount(response.data);
+          //console.log(response.data);
         }
     };
 
@@ -155,6 +156,18 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
       fetchData();
     },[]);
 
+    useEffect(() => {
+      const fetchData = async () => {
+        try {     
+          handleSearchUserPayments();
+        } catch (error) {
+          console.error('Error al obtener datos de la API', error);
+        }
+      };
+  
+      fetchData();
+    },[]);
+
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>       
         <Box sx={{
@@ -215,8 +228,8 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
                       sx={{width:400}}
                     >                      
                       {paymentPortalAccount.map((item, index) => (
-                        <MenuItem key={index} value={item}>
-                          {item}
+                        <MenuItem key={index} value={item.payment_portal_account}>
+                          {item.payment_portal_account}
                         </MenuItem>
                       ))}
                     </Select>

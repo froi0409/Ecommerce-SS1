@@ -19,7 +19,7 @@ const Products = ({ addToCart, getQuantityInCart }) => {
         const fetchData = async () => {
           try {
             // const response = await axios.get('http://localhost:3001/api/getAllProducts');
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/getAllProducts`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/getEnabledProducts`);
             setProductos(response.data);
           } catch (error) {
             console.error('Error al obtener datos de la API', error);
