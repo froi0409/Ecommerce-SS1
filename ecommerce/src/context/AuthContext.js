@@ -63,6 +63,10 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  const clearCart = () => {
+    setCart({});
+  };
+
   const removeFromCart = (productId) => {
     setCart((prevCart) => {
       const updatedCart = { ...prevCart };
@@ -91,7 +95,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userData, login, logout, cart, setCart, addToCart, removeFromCart, getTotalQuantityInCart, getQuantityInCart }}>
+    <AuthContext.Provider value={{ isAuthenticated, userData, login, logout, cart, setCart, addToCart, removeFromCart, getTotalQuantityInCart, getQuantityInCart,clearCart }}>
       {children}
     </AuthContext.Provider>
   );

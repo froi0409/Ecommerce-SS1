@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const Checkout = ({cart,getTotalQuantityInCart}) => {
     const [alert, setAlert] = useState({ open: false, severity: 'success', title: '', message: '' });
-    const {userData } = useAuth();  
+    const {userData,clearCart } = useAuth();  
     const [newAddress, setNewAddress] = useState('');  
 
     const [selectedUserPayment, setSelectedUserPayment] = useState();
@@ -117,6 +117,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
       //handleSave(process.env.REACT_APP_API_URL + '/api/makeSale', valNewAddress);
       console.log("Valores del pago");
       console.log(valNewPayment);
+      clearCart();
     };
 
     const handleSaveAddress = async () => {
@@ -152,7 +153,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
       };
   
       fetchData();
-    }, []);
+    },[]);
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>       

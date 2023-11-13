@@ -1,26 +1,55 @@
 import React, { useEffect, useState } from 'react'
 import { TextField, Container, IconButton, Box, Select, MenuItem, InputLabel, FormControl, Alert, AlertTitle, Button } from '@mui/material';
-import { Delete, Save, CloudUpload } from '@mui/icons-material';
+import { Delete, Save, CloudUpload,Add } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
 import axios from 'axios';
 
 const CrudProduct = (props) => {
   const alert = props.alert;
   const [suppliers, setSuppliers] = useState([]);
+  
+  const [categories, setCategories] = useState([]);
+  const [categorySelected, setCategorySelected] = useState('');
+
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [tags, setTags] = useState('');
+
+  
+
   const [userData, setUserData] = useState({
     product_id: '',
     product_name: '',
     unit_price: '',
     stock: '',
     supplier_name: '',
-    description: '',
+    description: '',    
+    tags:''
   });
+
+  const handleFileChange = (e) => {
+    // Actualiza la lista de archivos seleccionados
+    const archivos = Array.from(e.target.files);
+    setSelectedFiles(archivos);
+  };
 
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
         const response = await axios.get(process.env.REACT_APP_API_URL + '/api/getAllSuppliers');
         setSuppliers(response.data);
+      } catch (error) {
+        console.error('Error fetching suppliers:', error);
+      }
+    };
+
+    fetchSuppliers();
+  }, []); // El segundo argumento [] significa que este efecto se ejecutará solo una vez al montar el componente
+
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const response = await axios.get(process.env.REACT_APP_API_URL + '/api/getAllCategories');
+        setCategories(response.data);        
       } catch (error) {
         console.error('Error fetching suppliers:', error);
       }
@@ -37,8 +66,20 @@ const CrudProduct = (props) => {
 
   const handleSave = () => {
     console.log('Guardar')
+    const formData = new FormData();
+
+    Object.entries(userData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    if (selectedFiles) {
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append('files', selectedFiles[i]);
+      }
+    }
+
     props.handleSave(process.env.REACT_APP_API_URL + '/api/insertProduct',
-      userData)
+      formData)
   };
 
   //deshabilitar
@@ -69,12 +110,24 @@ const CrudProduct = (props) => {
       });
     }
   };
-
-  const [selectedFiles, setSelectedFiles] = useState([]);
-
-  const handleFileChange = (e) => {
+  const handleChangeCategory = (e) => {
     // Actualiza la lista de archivos seleccionados
-    setSelectedFiles(Array.from(e.target.files));
+    const categoriaSeleccionada = e.target.value;
+    setCategorySelected(categoriaSeleccionada);
+  };
+
+
+  const handleAddTag = (e) => {
+    // Actualiza la lista de archivos seleccionados    
+    let nuevosTags = '';
+    if (tags != ''){
+      nuevosTags = tags +','+ categorySelected;
+    }else{
+      nuevosTags = categorySelected;
+    }
+    
+    setTags(nuevosTags);
+    setUserData({ ...userData, tags: nuevosTags });
   };
 
   return (
@@ -114,6 +167,25 @@ const CrudProduct = (props) => {
                 </MenuItem>
               ))}
             </Select>
+
+          </FormControl>
+
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Tags</InputLabel>
+            <Select              
+              value={categorySelected} 
+              onChange={handleChangeCategory}
+            >
+              {categories.map((category) => (
+                <MenuItem key={category.category_name} value={category.category_name}>
+                  {category.category_name}
+                </MenuItem>
+              ))}
+            </Select> 
+            <Button variant="contained" startIcon={<Add />} onClick={handleAddTag}>
+              Agregar Categoria
+            </Button>                          
+            <TextField name="tags" label="Tags" margin="dense" disabled value={tags}/>
           </FormControl>
 
           <TextField name="description" label="Descripcion" value={userData.description} onChange={handleChange} margin="dense" multiline maxRows={4} />
