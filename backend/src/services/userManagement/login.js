@@ -1,4 +1,5 @@
 import * as db from '../../configs/database.config.js';
+import { hashPassword, comparePasswords } from './userDB.js';
 import { config } from 'dotenv'
 import jwt from 'jsonwebtoken';
 
@@ -34,9 +35,10 @@ async function isPassword(conn, username, password) {
     if (user.length === 0) return false;
 
     const storedPassword = user[0].password;
-    // Debes verificar aquí si `password` coincide con `storedPassword`, por ejemplo, utilizando una biblioteca de hashing de contraseñas.
-    // Aquí asumiremos que `password` y `storedPassword` son iguales para simplificar.
-
+    
+    // Compare password
+    const match = await comparePasswords(password, storedPassword);
+    if (!match) return false;
     return true; // Cambia esto según la lógica real de autenticación
 }
 

@@ -42,7 +42,7 @@ export const createUser = async (req, res) => {
     try {
         const user = await dbUserManager.createUser(userInfo);
         res.json({
-            message: `El usuario ${user.username} fue creado con éxito`
+            message: `El usuario ${userInfo.username} fue creado con éxito`
         });
     } catch (error) {
         console.error(error);
@@ -87,6 +87,37 @@ export const updatePassword = async (req, res) => {
         console.error(error);
         res.json({
             message: 'Ocurrió un error al actualizar la contraseña',
+            message_description: error.message
+        });
+    }
+}
+
+export const addAddress = async (req, res) => {
+    const username = req.body.username;
+    const address = req.body.address;
+    try {
+        const addAddress = await dbUserManager.addAddress(username, address);
+        res.json({
+            message: 'La dirección fue agregada con éxito'
+        });
+    } catch (error) {
+        console.error(error);
+        res.json({
+            message: 'Ocurrió un error al agregar la dirección',
+            message_description: error.message
+        });
+    }
+}
+
+export const getAddressByUsername = async (req, res) => {
+    const username = req.params.username;
+    try {
+        const address = await dbUserManager.getAddressByUsername(username);
+        res.json(address);
+    } catch (error) {
+        console.error(error);
+        res.json({
+            message: "Ocurrió un error al consultar la dirección",
             message_description: error.message
         });
     }
