@@ -1,11 +1,15 @@
-import React,{useState} from 'react'
-import { TextField, Container, Button, Box, Alert, AlertTitle, Typography, InputLabel,MenuItem,Select} from '@mui/material';
-import { PersonAdd, Login, Add, Password } from '@mui/icons-material'
+import React,{useState,useEffect} from 'react'
+import { TextField, Button, Box, Typography, InputLabel,MenuItem,Select,Alert, AlertTitle} from '@mui/material';
+import { PersonAdd, Login, Add} from '@mui/icons-material'
 import CheckoutCart from './CheckoutCart';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import axios from 'axios';
 
-const Checkout = ({cart,removeFromCart,addToCart,getTotalQuantityInCart}) => {
-
+const Checkout = ({cart,getTotalQuantityInCart}) => {
+    const [alert, setAlert] = useState({ open: false, severity: 'success', title: '', message: '' });
+    const {userData } = useAuth();  
+    const [newAddress, setNewAddress] = useState('');  
     const getTotalPrice = () => {
         const productValues = Object.values(cart);
         const totalPrice = productValues.reduce(
@@ -14,27 +18,161 @@ const Checkout = ({cart,removeFromCart,addToCart,getTotalQuantityInCart}) => {
         );
         return totalPrice;
       }; 
-    const usuario = 'a';
 
     const [selectedOption, setSelectedOption] = useState('Nueva Direccion');
+    const [addresses, setAddresses] = useState([]);
 
     const handleOptionChange = (event) => {
       setSelectedOption(event.target.value);
     };
+
+    const changeAlert = (data) => {
+      setAlert(data)
+    }
+
+    const handleSearchAddress = async () => {
+      console.log('Buscar Direcciones')    
+      const ruta = process.env.REACT_APP_API_URL + '/api/getAddressesByUsername/' + userData.user
+      const response = await axios.get(ruta);
+      if (response)
+        setAddresses(response.data);
+    };
+
+
+
+    const handleSave = async (url, dataJson) => {
+      let message = ''
+      try {
+        // Envía los datos al servidor
+        const response = await axios.post(url, dataJson);
+  
+        // Procesa la respuesta del servidor
+        // console.log('Respuesta del servidor:', response.data);
+        message = response.data.message;
+  
+        // Configura la alerta de éxito
+        setAlert({
+          open: true,
+          severity: 'success',
+          title: 'Éxito',
+          message: message,
+        });
+  
+        // Cierra la alerta después de 3 segundos
+        setTimeout(() => {
+          setAlert({ ...alert, open: false });
+        }, 3000);
+      } catch (error) {
+        console.error('Error al guardar', error);
+  
+        // Configura la alerta de error
+        setAlert({
+          open: true,
+          severity: 'error',
+          title: 'Error',
+          message: error.message,
+        });
+  
+        // Cierra la alerta después de 3 segundos
+        setTimeout(() => {
+          setAlert({ ...alert, open: false });
+        }, 3000);
+      }
+    };
+
+    const handlePay = async (url, dataJson) => {
+      let message = ''
+      try {
+        // Envía los datos al servidor
+        const response = await axios.post(url, dataJson);
+  
+        // Procesa la respuesta del servidor
+        // console.log('Respuesta del servidor:', response.data);
+        message = response.data.message;
+  
+        // Configura la alerta de éxito
+        setAlert({
+          open: true,
+          severity: 'success',
+          title: 'Éxito',
+          message: message,
+        });
+  
+        // Cierra la alerta después de 3 segundos
+        setTimeout(() => {
+          setAlert({ ...alert, open: false });
+        }, 3000);
+      } catch (error) {
+        console.error('Error al guardar', error);
+  
+        // Configura la alerta de error
+        setAlert({
+          open: true,
+          severity: 'error',
+          title: 'Error',
+          message: error.message,
+        });
+  
+        // Cierra la alerta después de 3 segundos
+        setTimeout(() => {
+          setAlert({ ...alert, open: false });
+        }, 3000);
+      }
+    };
+
+    const handleSaveAddress = () => {
+      const valNewAddress = {
+        username: userData.user,
+        address: newAddress
+      };
+      console.log('GuardarDireccion: ');
+      console.log(valNewAddress);
+      handleSave(process.env.REACT_APP_API_URL + '/api/addAddress', valNewAddress);
+      handleSearchAddress();
+    };
+
+    const handleTextFieldChange = (event) => {      
+      setNewAddress(event.target.value);
+    };
+
+    let usuario = '';
+    if (userData != null){
+      usuario = 'a';
+    }
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {     
+          handleSearchAddress();
+        } catch (error) {
+          console.error('Error al obtener datos de la API', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
+
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>       
         <Box sx={{
             marginTop: 10,
             marginLeft: 3,
         }}>
+            {alert.open && <Alert
+            open={alert.open}
+            severity={alert.severity}
+            onClose={() => changeAlert({ ...alert, open: false })}
+            >
+              <AlertTitle>{alert.title}</AlertTitle>
+              {alert.message}
+            </Alert>}
             <Typography variant='h3'>
                 Informacion del usuario
             </Typography>
             {usuario !== '' ? (
                 <div>
-                    <TextField sx={{marginRight:2}} id="username" label="Usuario" variant="filled" margin="dense"/>
-                    <TextField sx={{marginRight:2}} id="first_name" label="Nombre" variant="filled" margin="dense"/>
-                    <TextField id="last_name" label="Apellido" variant="filled" margin="dense"/>
+                    <TextField sx={{marginRight:2}} id="username" label="Usuario" variant="filled" margin="dense" value={userData.user}/>
+                    <TextField sx={{marginRight:2}} id="full_name" label="Nombre Completo" variant="filled" margin="dense" value={userData.name}/>
                     <br/>
                     <br/>
                     <Typography variant='h5'> Direccion de Envio</Typography>
@@ -47,13 +185,16 @@ const Checkout = ({cart,removeFromCart,addToCart,getTotalQuantityInCart}) => {
                       sx={{width:400}}
                     >
                       <MenuItem value="Nueva Direccion">Nueva Direccion</MenuItem>
-                      <MenuItem value="address1">Direccion 1</MenuItem>
-                      <MenuItem value="address1">Direccion 2</MenuItem>
+                      {addresses.map((item, index) => (
+                        <MenuItem key={index} value={item.address}>
+                          {item.address}
+                        </MenuItem>
+                      ))}
                     </Select>
                     {selectedOption === "Nueva Direccion" ? (
                         <div>
-                            <TextField sx={{marginRight:2 , width:500}} id="newaddress" label="Nueva Direccion" variant="filled" margin="dense"/>
-                            <Button sx={{marginTop:1}} variant="contained" startIcon={<Add/>} >Ingresar</Button>
+                            <TextField sx={{marginRight:2 , width:500}} id="newaddress" label="Nueva Direccion" variant="filled" margin="dense" onChange={handleTextFieldChange} value={newAddress}/>
+                            <Button sx={{marginTop:1}} variant="contained" startIcon={<Add/>} onClick={handleSaveAddress}>Ingresar</Button>
                         </div>
                     ) : (
                         <div>                            
@@ -63,8 +204,7 @@ const Checkout = ({cart,removeFromCart,addToCart,getTotalQuantityInCart}) => {
                     <br/>
                     <Typography variant='h5'> Informacion de la plataforma de pagos</Typography>
                     <TextField sx={{marginRight:2}} id="payment_portal_account" label="Usuario Portal de Pagos" variant="filled" margin="dense"/>
-                    <TextField sx={{marginRight:2}} id="payment_portal_password" label="Contrasena Portal de Pagos" variant="filled" margin="dense"/>
-                    <Button sx={{marginTop:1}} variant="contained" startIcon={<Password/>} >Validar Contrasena</Button>
+                    <TextField sx={{marginRight:2}} id="payment_portal_password" label="Contrasena Portal de Pagos" variant="filled" margin="dense"/>                    
                 </div>
             ) : (
                 <div>
