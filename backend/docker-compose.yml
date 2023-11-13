@@ -23,6 +23,9 @@ services:
       - db
     ports:
       - $NODE_LOCAL_PORT:$NODE_CONTAINER_PORT
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./public/images:/myapp/public/images  # Mapeo del directorio local al contenedor
 
 volumes:
   db-data:
