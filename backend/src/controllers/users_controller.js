@@ -122,3 +122,24 @@ export const getAddressByUsername = async (req, res) => {
         });
     }
 }
+
+export const addPaymentPortalAccount = async (req, res) => { 
+    const accountInfo = {
+        payment_portal_account: req.body.payment_portal_account,
+        payment_portal_password: req.body.payment_portal_password
+    }
+
+    try {
+        const account = await dbUserManager.addPaymentPortalAccount(accountInfo);
+        res.json({
+            message: `El estado de la cuenta es ${account}`
+        });
+    } catch (error) {
+        console.error(error);
+        res.json({
+            message: "Ocurrió un error al agregar la cuenta",
+            message_description: error.message
+        });
+    }
+
+}

@@ -11,6 +11,7 @@ router.get('/getAddressesByUsername/:username', UsersController.getAddressByUser
 router.post('/login', LoginController.login);
 router.post('/createUser', UsersController.createUser);
 router.post('/addAddress', UsersController.addAddress);
+router.post('/addPaymentPortalAccount', UsersController.addPaymentPortalAccount);
 
 router.put('/updateUser', UsersController.updateUser);
 router.put('/updatePassword', UsersController.updatePassword);

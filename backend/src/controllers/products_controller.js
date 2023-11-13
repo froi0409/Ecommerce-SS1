@@ -93,6 +93,10 @@ export const insertProduct = async (req, res) => {
             images: req.files
         }
 
+        if (typeof product.tags === "string") {
+            product.tags = product.tags.split(',');
+        }
+
         console.log(product);
 
         const productInsert = await dbProductManager.insertProduct(product);
