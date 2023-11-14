@@ -115,10 +115,31 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
         payment_portal_password: paymentPortalPassword, 
         address: selectedOption
       };
-      handleSave(process.env.REACT_APP_API_URL + '/api/makeSale', valNewPayment);
-      console.log("Valores del pago");
-      console.log(valNewPayment);
-      clearCart();
+      let errorAlPagar = 0;
+      let mensajeError = '';
+      if (selectedOption === 'Nueva Direccion'){        
+        mensajeError = 'Necesita ingresar una direccion';
+        errorAlPagar = 1;
+      }
+      if(selectedUserPayment === undefined){
+        if(errorAlPagar === 1){
+          mensajeError += ' y Necesita ingresar un usuario de portal de pagos';
+        }else{
+          mensajeError = 'Necesita ingresar un usuario de portal de pagos';
+        }
+        errorAlPagar = 1;
+      }
+      if (errorAlPagar === 1){ 
+        setAlert({
+          open: true,
+          severity: 'error',
+          title: 'Error',
+          message: mensajeError,
+        });
+      }else{
+        //handleSave(process.env.REACT_APP_API_URL + '/api/makeSale', valNewPayment);
+        clearCart();
+      }
     };
 
     const handleSaveAddress = async () => {
