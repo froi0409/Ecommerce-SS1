@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { TextField, Container, IconButton, Box, Select, MenuItem, InputLabel, FormControl, Alert, AlertTitle } from '@mui/material';
 import { Save } from '@mui/icons-material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreateAccount = () => {
+    const navigate = useNavigate();
     const [alert, setAlert] = useState({ open: false, severity: 'success', title: '', message: '' });
     const [userData, setUserData] = useState({
         username: '',
@@ -47,6 +49,7 @@ const CreateAccount = () => {
             // Cierra la alerta después de 3 segundos
             setTimeout(() => {
                 setAlert({ ...alert, open: false });
+                navigate('/login');
             }, 3000);
         } catch (error) {
             console.error('Error al guardar', error);
@@ -66,6 +69,11 @@ const CreateAccount = () => {
         }
     }
 
+    const handleOnClose = () => {
+        setAlert({ ...alert, open: false })
+        navigate('/login');
+    }
+
     return (
         <div>
 
@@ -75,7 +83,7 @@ const CreateAccount = () => {
                 {alert.open && <Alert
                     open={alert.open}
                     severity={alert.severity}
-                    onClose={() => setAlert({ ...alert, open: false })}
+                    onClose={handleOnClose}
                 >
                     <AlertTitle>{alert.title}</AlertTitle>
                     {alert.message}

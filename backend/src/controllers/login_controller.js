@@ -7,9 +7,8 @@ export const login = async (req, res) => {
         const token = await dbLoginManager.login(username, passwd);
         res.json({token: token});
     } catch (error) {
-        console.error(error);
         res.json({
-            message: "Ocurrió un error al el login"
+            message: error.message
         })
     }
 }
