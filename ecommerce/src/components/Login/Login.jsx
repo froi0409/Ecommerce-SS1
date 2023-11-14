@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
-import { Typography } from '@mui/material'
+import { Alert, AlertTitle, Typography } from '@mui/material'
 import Button from '@mui/material/Button';
 import PersonIcon from '@mui/icons-material/Person';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [alert, setAlert] = useState({ open: false, severity: 'success', title: '', message: '' });
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -31,6 +32,10 @@ const Login = () => {
     const usernameChange = (e) => {
         const { value } = e.target;
         setUsername(value);
+    }
+
+    const changeAlert = (data) => {
+        setAlert(data)
     }
 
     const loginHandler = async (e) => {
@@ -51,6 +56,17 @@ const Login = () => {
                     return;
                 }
                 console.log('no hay token')
+                // Configura la alerta de error
+                setAlert({
+                    open: true,
+                    severity: 'error',
+                    title: 'Error',
+                    message: response.data.message,
+                });
+                // Cierra la alerta después de 3 segundos
+                setTimeout(() => {
+                    setAlert({ ...alert, open: false });
+                }, 3000);
             })
             .catch((error) => {
                 // Maneja los errores
@@ -68,6 +84,16 @@ const Login = () => {
                 <div className={classes.logo}>
                     <Avatar alt="Logo ecommerce" src={logo} sx={{ width: 90, height: 90 }} />
                 </div>
+
+                {alert.open && <Alert
+                    open={alert.open}
+                    severity={alert.severity}
+                    onClose={() => changeAlert({ ...alert, open: false })}
+                >
+                    <AlertTitle>{alert.title}</AlertTitle>
+                    {alert.message}
+                </Alert>}
+
                 <form onSubmit={loginHandler} >
                     <Box
                         component="form"
