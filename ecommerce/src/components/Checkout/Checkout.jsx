@@ -137,7 +137,7 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
           message: mensajeError,
         });
       }else{
-        //handleSave(process.env.REACT_APP_API_URL + '/api/makeSale', valNewPayment);
+        handleSave(process.env.REACT_APP_API_URL + '/api/makeSale', valNewPayment);
         clearCart();
       }
     };
