@@ -24,19 +24,29 @@ export async function validateAccount(account, associationToken) {
     }
 }
 
-export async function validateMonetaryTransaction(sourceAccount, destinationAccount, amount) {
+export async function validateMonetaryTransaction(sourceAccount, amount) {
     try {
+        let destinationAccount = process.env.BANK_ACCOUNT;
+        const splitSourceAccount = sourceAccount.split('@');
+        if (splitSourceAccount.length > 1 && splitSourceAccount[1] === 'undeadbank.com')  {
+            destinationAccount = procces.env.BANK_ACCOUNT;
+        } else {
+            destinationAccount = process.env.CARD_ACCOUNT;
+        }
+
         const postData = {
             sourceAccount: sourceAccount,
             destinationAccount: destinationAccount,
             amount: amount
         }
 
+
+
         // Esto lo tendremos que eliminar cuando ya estén habilitados los usuarios
-        return {
-            status: true, // si la transacción no fue exitosa deberá retornar false
-            message: 'Validación exitosa'
-        };
+        // return {
+        //     status: true, // si la transacción no fue exitosa deberá retornar false
+        //     message: 'Validación exitosa'
+        // };
 
         const response = await axios.post(`${process.env.PAYMENT_PORTAL_URL}/transaction`, postData)
         const status = response.data.status;
@@ -44,14 +54,20 @@ export async function validateMonetaryTransaction(sourceAccount, destinationAcco
         console.log(`Validación de Transacción: ${status}`);
         
         if (status === undefined) {
-            throw new Error('Error de Servidor de Portal de Pagos');
+            return {
+                status: false, // si la transacción no fue exitosa deberá retornar false
+                message: 'Error de Servidor de Portal de Pagos'
+            }
         } else if (status === 100) {
             return {
                 status: true, // si la transacción no fue exitosa deberá retornar false
                 message: 'Validación exitosa'
             }
         } else {
-            throw new Error(message);
+            return {
+                status: false, // si la transacción no fue exitosa deberá retornar false
+                message: message
+            }
         }
         
     } catch (error) {

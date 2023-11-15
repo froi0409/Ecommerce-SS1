@@ -1,5 +1,8 @@
 import * as db from '../../configs/database.config.js';
+import { config } from 'dotenv';
 import { validateAccount, validateMonetaryTransaction } from '../other/paymentPortalManagement.js';
+
+config();
 
 export async function makeSale(saleInfo) {
     const conn = await db.getConnection();
@@ -8,7 +11,7 @@ export async function makeSale(saleInfo) {
         // Get data
         const dateTime = getDate();
         let saleStatus = 1;
-        let message = '';
+        let message = 'Error ';
 
         // Create Sale
         const saleCreation = await conn.query('INSERT INTO SALE (sale_date, sale_hour, user_username, status) VALUES (?, ?, ?, ?)', [ dateTime.date, dateTime.time, saleInfo.username, 0 ]);
@@ -28,7 +31,7 @@ export async function makeSale(saleInfo) {
                 const insertProductDetail = await conn.query('INSERT INTO PRODUCT_DETAIL (product_id, current_unit_price, quantity, subtotal, sale_id) VALUES (?,?,?,?,?)', [ product.id, productStock[0].unit_price, product.quantity, subtotal, saleId  ]);
                 if (insertProductDetail.length === 0) {
                     saleStatus = 0;
-                    message += `No se ha podido crear el detalle del producto ${product.id} - ${productStock[0].product_name}\n`;
+                    message += `, No se ha podido crear el detalle del producto ${product.id} - ${productStock[0].product_name}`;
                 }    
             }
         }
@@ -46,14 +49,14 @@ export async function makeSale(saleInfo) {
         const validPassword = await validateAccount(saleInfo.payment_portal_account, saleInfo.payment_portal_password);
         if (!validPassword) {
             saleStatus = 0;
-            message += `Error de autenticación en la cuenta del portal de pagos\n`;
+            message += `, Error de autenticación en la cuenta del portal de pagos`;
         }
 
         // get total amount
         const amount = await conn.query('SELECT SUM(subtotal) FROM PRODUCT_DETAIL WHERE sale_id = ? GROUP BY product_id', [ saleId ]);
         if (amount.length === 0) {
             saleStatus = 0;
-            message += `No se ha podido obtener el total de la venta\n`;
+            message += `, No se ha podido obtener el total de la venta`;
         }
 
         if (saleStatus === 1) {
@@ -71,20 +74,18 @@ export async function makeSale(saleInfo) {
                 await conn.query('UPDATE SALE SET status = ? WHERE sale_id = ?', [ saleStatus, saleId ]);
 
                 // Validate payment
-                const validateTransaction = await validateMonetaryTransaction(saleInfo.payment_portal_account, 'frikistuffBANK-001@undeadbank.com', amount);
+                const validateTransaction = await validateMonetaryTransaction(saleInfo.payment_portal_account, amount);
                 if (!validateTransaction.status) {
-                    saleStatus = 0;
-                    message += `${validateTransaction.message}\n`;
+                    message += `, ${validateTransaction.message}`;                
+                    await conn.rollback();
                 }
 
                 await conn.commit();
             } catch (error) {
-                console.error(error);
-                message +=  `Ocurrió un error inesperado durante la transacción`;
                 if (conn) {
                     await conn.rollback();
                 }
-                throw new Error(message);
+                throw error;
             }
         } else {
             await conn.query('UPDATE SALE SET message = ? WHERE sale_id = ?', [ message, saleId ]);
