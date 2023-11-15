@@ -11,13 +11,13 @@ export const makeSale = async (req, res) => {
     try {
         const sale = await dbSalesManager.makeSale(saleInfo);
         res.json({
-            message: sale
+            message: 'transacción realizada con éxito'
         });
     } catch (error) {
-        console.error(error);
+        console.error(error.message);
         res.status(400).json({
-            meesage: 'Error al realizar la compra',
-            message_description: error.message
+            meesage: error.message,
+            message_description: 'Error al realizar la compra'
         });
     }
 }
