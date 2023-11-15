@@ -29,7 +29,7 @@ export async function validateMonetaryTransaction(sourceAccount, amount) {
         let destinationAccount = process.env.BANK_ACCOUNT;
         const splitSourceAccount = sourceAccount.split('@');
         if (splitSourceAccount.length > 1 && splitSourceAccount[1] === 'undeadbank.com')  {
-            destinationAccount = procces.env.BANK_ACCOUNT;
+            destinationAccount = process.env.BANK_ACCOUNT;
         } else {
             destinationAccount = process.env.CARD_ACCOUNT;
         }

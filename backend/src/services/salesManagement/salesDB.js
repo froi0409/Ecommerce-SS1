@@ -6,12 +6,13 @@ config();
 
 export async function makeSale(saleInfo) {
     const conn = await db.getConnection();
+    let message = 'Error';
     try {
         
         // Get data
         const dateTime = getDate();
         let saleStatus = 1;
-        let message = 'Error ';
+        
 
         // Create Sale
         const saleCreation = await conn.query('INSERT INTO SALE (sale_date, sale_hour, user_username, status) VALUES (?, ?, ?, ?)', [ dateTime.date, dateTime.time, saleInfo.username, 0 ]);
@@ -53,7 +54,15 @@ export async function makeSale(saleInfo) {
         }
 
         // get total amount
-        const amount = await conn.query('SELECT SUM(subtotal) FROM PRODUCT_DETAIL WHERE sale_id = ? GROUP BY product_id', [ saleId ]);
+        const amountResult = await conn.query('SELECT SUM(subtotal) AS subtotal FROM PRODUCT_DETAIL WHERE sale_id = ? GROUP BY product_id', [ saleId ]);
+        let amount = 0;
+        for (let i = 0; i < amountResult.length; i++) {
+            const element = amountResult[i];
+            console.log(`element: ${element.subtotal}`);
+            amount += Number(element.subtotal);
+        }
+
+        console.log(amount);
         if (amount.length === 0) {
             saleStatus = 0;
             message += `, No se ha podido obtener el total de la venta`;
@@ -78,6 +87,8 @@ export async function makeSale(saleInfo) {
                 if (!validateTransaction.status) {
                     message += `, ${validateTransaction.message}`;                
                     await conn.rollback();
+                    await conn.query('UPDATE SALE SET message = ? WHERE sale_id = ?', [ message, saleId ]);
+                    throw new Error(message);
                 }
 
                 await conn.commit();
@@ -85,9 +96,11 @@ export async function makeSale(saleInfo) {
                 if (conn) {
                     await conn.rollback();
                 }
-                throw error;
+                await conn.query('UPDATE SALE SET message = ? WHERE sale_id = ?', [ message, saleId ]);
+                throw new Error(message);
             }
         } else {
+            console.log(`Mensaje: ${message}`);
             await conn.query('UPDATE SALE SET message = ? WHERE sale_id = ?', [ message, saleId ]);
             throw new Error(message);
         }
@@ -95,7 +108,7 @@ export async function makeSale(saleInfo) {
         return ('La transacción fue realizada con éxito');
 
     } catch (error) {
-        throw error;
+        throw new Error(message);
     } finally {
         if (conn) conn.end();
     }
