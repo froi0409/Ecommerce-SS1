@@ -136,9 +136,9 @@ export const addPaymentPortalAccount = async (req, res) => {
             message: `Se agregó con éxito la cuenta ${accountInfo.payment_portal_account}`,
         });
     } catch (error) {
-        console.error(error);
-        res.json({
-            message: "Ocurrió un error al agregar la cuenta",
+        console.error(error.message);
+        res.status(400).json({
+            message: error.message,
             message_description: error.message
         });
     }
