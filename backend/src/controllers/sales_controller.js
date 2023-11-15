@@ -15,7 +15,7 @@ export const makeSale = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.json({
+        res.status(400).json({
             meesage: 'Error al realizar la compra',
             message_description: error.message
         });
