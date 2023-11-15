@@ -71,17 +71,30 @@ const Checkout = ({cart,getTotalQuantityInCart}) => {
         message = response.data.message;
   
         // Configura la alerta de éxito
-        setAlert({
-          open: true,
-          severity: 'success',
-          title: 'Éxito',
-          message: message,
-        });
-  
-        // Cierra la alerta después de 3 segundos
-        setTimeout(() => {
-          setAlert({ ...alert, open: false });
-        }, 3000);
+        if (response.data.message && response.status === 200) {
+          setAlert({
+            open: true,
+            severity: 'success',
+            title: 'Éxito',
+            message: message,
+          });
+    
+          // Cierra la alerta después de 3 segundos
+          setTimeout(() => {
+            setAlert({ ...alert, open: false });
+          }, 3000);
+        }else{
+          setAlert({
+            open: true,
+            severity: 'error',
+            title: 'Error',
+            message: message,
+          });
+          // Cierra la alerta después de 3 segundos
+          setTimeout(() => {
+            setAlert({ ...alert, open: false });
+          }, 3000);
+        }
       } catch (error) {
         console.error('Error al guardar', error);
   
