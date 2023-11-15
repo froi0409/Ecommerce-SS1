@@ -37,7 +37,8 @@ const ReportSales = (props) => {
         { field: 'sale_id', headerName: 'Id', width: 190 },
         { field: 'sale_date', headerName: 'Fecha', width: 190 },
         { field: 'sale_hour', headerName: 'Hora', width: 190 },
-        { field: 'user_name', headerName: 'User', width: 250 },
+        { field: 'user_username', headerName: 'Usuario', width: 250 },
+        { field: 'product_detail', headerName: 'Detalles de productos', width: 310 },
         { field: 'total_sale', headerName: 'Total de ventas', width: 250 },
     ];
 
