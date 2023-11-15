@@ -119,15 +119,17 @@ const CrudProduct = (props) => {
 
   const handleAddTag = (e) => {
     // Actualiza la lista de archivos seleccionados    
-    let nuevosTags = '';
-    if (tags != ''){
-      nuevosTags = tags +','+ categorySelected;
-    }else{
-      nuevosTags = categorySelected;
+    if(categorySelected !== ''){
+      let nuevosTags = '';
+      if (tags !== ''){
+        nuevosTags = tags +','+ categorySelected;
+      }else{
+        nuevosTags = 'Todos,' + categorySelected;
+      }
+
+      setTags(nuevosTags);
+      setUserData({ ...userData, tags: nuevosTags });
     }
-    
-    setTags(nuevosTags);
-    setUserData({ ...userData, tags: nuevosTags });
   };
 
   return (
